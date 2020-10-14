@@ -5,7 +5,7 @@ $conn->set_charset("utf8");
 if ($conn->connect_error) {
  die("Connection failed: " . $conn->connect_error);
  }  
- $bloggMod=1;
+ 
 
    echo'<form action="moder.php" method="post">
    <input type="text" name="anvendare">
@@ -14,7 +14,8 @@ if ($conn->connect_error) {
 
    if(isset($_POST['submit'])){
    $anvNamn=$_POST['anvendare'];
-
+   $bloggMod=1;
+   
    $sql="SELECT anvID FROM anvandare WHERE anvNamn='$anvNamn'";
    $query = $conn->query($sql);
     
