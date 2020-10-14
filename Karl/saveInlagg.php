@@ -21,12 +21,12 @@
     }
     $anv=1;
     $blogg=1;
-    
 
-    /*$sql="Insert into inlagg(anvID,titel,datumTid,visa,bloggID,visaKommentar,text)
+
+    /*$sql="Insert into post(anvID,titel,datumTid,visa,bloggID,visaKommentar,text)
     VALUES($anv,'$titel','$datumTid',$visa,$blogg,$kommentar,'$text')";
-    $inlagg= $mysqli->query($sql);
-    while($row = $inlagg->fetch_assoc()){
+    $post= $mysqli->query($sql);
+    while($row = $post->fetch_assoc()){
         
     }*/
 ?>
