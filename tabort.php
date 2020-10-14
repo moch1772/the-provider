@@ -12,7 +12,7 @@ $sql = "SELECT anvID FROM rolls WHERE bloggmod='1'";
    $all= $conn->query($sql);
 
       while ($row= $all->fetch_assoc()) {
-          $av=$row['anvID'];jjj
+          $av=$row['anvID'];
         $sql="SELECT anvNamn FROM anvandare WHERE anvID='$av'";
         $all= $conn->query($sql);
           while ($row= $all->fetch_assoc()) {
