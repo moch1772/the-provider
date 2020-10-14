@@ -12,7 +12,7 @@ if ($conn->connect_error) {
    <input type="submit" name="submit">
    </form>';
 
-   if(isset($_POST['submit'])){
+   if(isset($_POST['submit'])){ll
    $anvNamn=$_POST['anvendare'];
 
    $sql="SELECT anvID FROM anvandare WHERE anvNamn='$anvNamn'";
