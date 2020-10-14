@@ -24,9 +24,11 @@ if ($conn->connect_error) {
     $row = $resultt->fetch_assoc();
         $anvID=$row['anvID'];
         echo $anvID;
+
         $sql = "SELECT bloggmod FROM rolls WHERE anvID='$anvID'";
         $query = $conn->query($sql);
         $om = $query->fetch_assoc();
+
         if (!empty($om)){
             $mod = $conn->query($sql);
             $row = $mod->fetch_assoc();
@@ -50,4 +52,6 @@ switch ($Mod) {
         }
 }
    }
+   
+   
 ?>
