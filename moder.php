@@ -15,8 +15,8 @@ if ($conn->connect_error) {
    if(isset($_POST['submit'])){
    $anvNamn=$_POST['anvendare'];
    $bloggMod=1;
-   
-   $sql="SELECT anvID FROM anvandare WHERE anvNamn='$anvNamn'";
+
+   $sql="SELECT ID FROM anvandare WHERE name='$anvNamn'";
    $query = $conn->query($sql);
     
    $resultat = $query->fetch_assoc();
@@ -26,7 +26,7 @@ if ($conn->connect_error) {
         $anvID=$row['anvID'];
         echo $anvID;
 
-        $sql = "SELECT bloggmod FROM rolls WHERE anvID='$anvID'";
+        $sql = "SELECT bloggmod FROM rolls WHERE userID='$anvID'";
         $query = $conn->query($sql);
         $om = $query->fetch_assoc();
 
@@ -37,7 +37,7 @@ if ($conn->connect_error) {
         $Mod=$row['bloggmod'];
 switch ($Mod) {
     case '0':
-        $sql="UPDATE rolls SET bloggmod='$bloggMod' WHERE anvID='$anvID'";
+        $sql="UPDATE rolls SET bloggmod='$bloggMod' WHERE userID='$anvID'";
         $conn->query($sql);
         break;
     
@@ -48,7 +48,7 @@ switch ($Mod) {
         
         }else{
 
-       $sql="INSERT INTO rolls(anvID,bloggmod) VALUES('$anvID','$bloggMod')";
+       $sql="INSERT INTO rolls(userID,bloggmod) VALUES('$anvID','$bloggMod')";
        $conn->query($sql);
         }
 }

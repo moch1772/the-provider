@@ -8,12 +8,12 @@ if ($conn->connect_error) {
 
 
 
-$sql = "SELECT anvID FROM rolls WHERE bloggmod='1'";
+$sql = "SELECT userID FROM rolls WHERE bloggmod='1'";
    $all= $conn->query($sql);
 
       while ($row= $all->fetch_assoc()) {
           $av=$row['anvID'];
-        $sql="SELECT anvNamn FROM anvandare WHERE anvID='$av'";
+        $sql="SELECT name FROM user WHERE ID='$av'";
         $aln= $conn->query($sql);
           while ($row= $aln->fetch_assoc()) {
              echo $row['anvNamn']; 
@@ -27,13 +27,13 @@ $sql = "SELECT anvID FROM rolls WHERE bloggmod='1'";
 if(isset($_POST['anvnamn'])) {
    $anvNamn=$_POST['anvnamn'];
 
-         $sql="SELECT anvID FROM anvandare WHERE anvNamn='$anvNamn'";
+         $sql="SELECT ID FROM anvandare WHERE name='$anvNamn'";
          $query = $conn->query($sql);
           
          $row = $query->fetch_assoc();
-         $anvID=$row['anvID'];
+         $anvID=$row['ID'];
          
-          $sql="UPDATE rolls SET bloggmod=0 WHERE anvID='$anvID'";
+          $sql="UPDATE rolls SET bloggmod=0 WHERE userID='$anvID'";
           $conn->query($sql);
        
 }
