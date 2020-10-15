@@ -19,12 +19,10 @@
     if (!$mysqli) {
         die("Connection failed: " . mysqli_connect_error());
     }
-    $anv=1;
-    $blogg=1;
+    $search=
 
 
-    /*$sql="Insert into post(anvID,titel,datumTid,visa,bloggID,visaKommentar,text)
-    VALUES($anv,'$titel','$datumTid',$visa,$blogg,$kommentar,'$text')";
+    $sql="select * from post where title='$search' "
     $post= $mysqli->query($sql);
     while($row = $post->fetch_assoc()){
         
