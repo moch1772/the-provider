@@ -3,7 +3,7 @@
 include "db.php";
 
 if($_POST["submit"] == "Ladda upp"){
-  uploadFile($_FILES["fileToUpload"], $conn);
+  uploadFile($_FILES["fileToUpload"], 0, 0, $conn);
 }
 
 if($_POST["submit"] == "Skapa kommentar"){
@@ -11,7 +11,7 @@ if($_POST["submit"] == "Skapa kommentar"){
 }
 
 
-function uploadFile($file, $conn)
+function uploadFile($file, $postID, $wiki, $conn)
   {
     $target_dir = "uploads/";
     $target_file = $target_dir . basename($file["name"]);
@@ -28,7 +28,7 @@ function uploadFile($file, $conn)
     }
 
     if(file_exists($target_file)) {
-      echo "Sorry, file already exists.";
+      echo "<br>Sorry, file already exists.";
       $errorCheck = 0;
     }
       
@@ -50,8 +50,12 @@ function uploadFile($file, $conn)
         $name = htmlspecialchars(basename($file["name"]));
         echo "The file ".$name." has been uploaded.";
 
-        $sql = "INSERT INTO bilder (sokvag) VALUES ('uploads/".$name."');";
-        $conn->query($sql);
+        $sql = $conn->prepare("INSERT INTO bilder (sokvag, postID, wiki) VALUES (?, ?, ?);");
+        $sql->bind_param("sii", $sokvag, $postID, $wiki);
+
+        $sokvag = "uploads/".$name;
+        $sql->execute();
+        $sql->close();
 
       } else {
         echo "Sorry, there was an error uploading your file.";
@@ -59,23 +63,28 @@ function uploadFile($file, $conn)
     }
   }
 
-  function insertNewComment($postID, $anvID, $text){
+  function insertNewComment($postID, $userID, $text){
      if($_POST["commentText"] == ""){
-      echo "Text field cannot be left empty."
+      echo "Text field cannot be left empty.";
     } else {
       $sql = $conn->prepare("INSERT INTO kommentarer (postID, anvID, text) VALUES (?, ?, ?);");
-      $sql->bind_param("iis", $postID, $anvID, $text);
+      $sql->bind_param("iis", $postID, $userID, $text);
 
       $sql->execute();
       $sql->close();
 
-      newBloggLog($postID, $anvID, "New Comment.");
+      newBloggLog($postID, $userID, "New Comment.");
     }
   }
 
-  function newBloggLog($postID, $anvID, $description){
+  function removeComment($commentID, $conn){
+    $sql = "DELETE FROM kommentarer WHERE kommentarID = ".$commentID.";";
+    $conn->query($sql);
+  }
+
+  function newBloggLog($postID, $userID, $description){
     $sql = $conn->prepare("INSERT INTO blogghistorik (postID, anvID, text) VALUES (?, ?, ?);");
-    $sql->bind_param("iis", $postID, $anvID, $description);
+    $sql->bind_param("iis", $postID, $userID, $description);
 
     $sql->execute();
     $sql->close();
