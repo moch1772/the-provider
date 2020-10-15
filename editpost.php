@@ -32,5 +32,10 @@
         <input type="submit" name="update" value="Update"><br></br>
         <label for="comment">Tillåt kommentarer</label>
         <input type="hidden" name="showcomment" value="0"></input>
-        <input type="checkbox" name="showcomment" value="<?php echo $row['showComments'] ?>">
+        <input type="checkbox" name="showcomment" value="<?php echo $row['showComments'];?>" 
+        <?php 
+        if($row['showComments']==1){
+            echo"checked";}
+        ?>
+        >
 </form>

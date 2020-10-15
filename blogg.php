@@ -25,6 +25,7 @@
     <td>anvID</td>
     <td>Title</td>
     <td>Text</td>
+    <td>show Comment</td>
     <td>Edit</td>
     <td>Delete</td>
   </tr>
@@ -42,6 +43,7 @@ while($row = mysqli_fetch_array($result))
         <td><?php echo $row['userID']; ?></td>
         <td><?php echo $row['title']; ?></td>
         <td><?php echo $row['text']; ?></td>
+        <td><?php echo $row['showComments']; ?></td>
         <td><a href="editpost.php?postID=<?php echo $row['postID']; ?>">Edit</a></td>   
         <td><a href="deletepost.php?postID=<?php echo $row['postID']; ?>">Delete</a></td>
     </tr>	
