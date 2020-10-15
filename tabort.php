@@ -23,7 +23,7 @@ $sql = "SELECT userID FROM rolls WHERE bloggmod='1'";
           }
        
    }
-
+//det som är ovanför är bara för att ha något att visa
 if(isset($_POST['anvnamn'])) {
    $anvNamn=$_POST['anvnamn'];
 
