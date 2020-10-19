@@ -7,7 +7,7 @@ if($_POST["submit"] == "Ladda upp"){
 }
 
 if($_POST["submit"] == "Skapa kommentar"){
-  insertNewComment($_POST["post"], $_POST["user"], $_POST["commentText"]);
+  insertNewComment($_POST["post"], $_POST["user"], $_POST["commentText"], $conn);
 }
 
 
@@ -49,6 +49,8 @@ function uploadFile($file, $postID, $wiki, $conn){
       $name = htmlspecialchars(basename($file["name"]));
       echo "The file ".$name." has been uploaded.";
 
+      $sokvag = "";
+
       $sql = $conn->prepare("INSERT INTO bilder (sokvag, postID, wiki) VALUES (?, ?, ?);");
       $sql->bind_param("sii", $sokvag, $postID, $wiki);
 
@@ -84,7 +86,7 @@ function removeComment($commentID, $conn){
   newBloggLog("The comment with the comment ID: ".$commentID." was removed.");
 }
 
-function newBloggLog($description){
+function newBloggLog($description, $conn){
   $sql = $conn->prepare("INSERT INTO blogghistorik (text) VALUES (?);");
   $sql->bind_param("s", $description);
 
