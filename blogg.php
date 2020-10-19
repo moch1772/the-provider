@@ -15,11 +15,23 @@
         <textarea name="bloggtext" rows="20" cols="50" placeholder="Content"></textarea>
         <input type="submit" name="submitpost" value="Post"><br></br>
         <label for="comment">Tillåt kommentarer</label>
-        <input type="hidden" name="showcomment" value="0"></input>
-        <input type="checkbox" name="showcomment" value="1"></input>
+        <input type="hidden" name="showComments" value="0"></input>
+        <input type="checkbox" name="showComments" value="1"></input>
+        <input type="text" name="tag" placeholder="Add tag"></input>
+        <input type="submit" name="submitpost" value="tag"></input>
+        <!--<input type="submit" name="add-tag" value="Add tag"></input>-->
     </form>
+    <?php
+    echo $_SESSION['array'];
+    if(isset($_SESSION['array'])) {
+        $tags = unserialize($_SESSION['array']);
+        foreach ($tags as $t) {
+            echo $t;
+        }
+    }
+    ?>
 
-<table border="2">
+<table style="margin-left: 50%; margin-top: -30%;" border="2">
   <tr>
     <td>postID</td>
     <td>anvID</td>
@@ -49,7 +61,5 @@ while($row = mysqli_fetch_array($result))
         }
 ?>
 </table>
-
-
 </body>
 </html>
