@@ -74,7 +74,7 @@ function insertNewComment($postID, $userID, $text, $conn){
     $sql->execute();
     $sql->close();
 
-    newBloggLog($userID." made a comment on ".$postID);
+    newBloggLog($userID." made a comment on ".$postID, $conn);
   }
 }
 
@@ -83,7 +83,7 @@ function removeComment($commentID, $conn){
   $conn->query($sql);
 
   
-  newBloggLog("The comment with the comment ID: ".$commentID." was removed.");
+  newBloggLog("The comment with the comment ID: ".$commentID." was removed.", $conn);
 }
 
 function newBloggLog($description, $conn){
