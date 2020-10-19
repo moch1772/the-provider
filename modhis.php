@@ -1,33 +1,48 @@
 <?php
+$userID=$_SESSION['userID'];
 
 
-$conn = new mysqli('localhost', 'root','','provider');
-$conn->set_charset("utf8");
-if ($conn->connect_error) {
- die("Connection failed: " . $conn->connect_error);
- } 
- 
+ function commenthistory(){
+
+    $conn = new mysqli('localhost', 'root','','provider');
+    $conn->set_charset("utf8");
+    if ($conn->connect_error) {
+     die("Connection failed: " . $conn->connect_error);
+     } 
+
  $sql="SELECT * FROM commenthistory";
  $query = $conn->query($sql);
         
          while($row = $query->fetch_assoc()){
-             echo $row['text'];
+             return $row['text'];
 
-             $userID=$row['userID'];
+             $ID=$row['userID'];
              $modID=$row['modID'];
 
-              $sql="SELECT name FROM user WHERE ID='$userID'"; 
+              $sql="SELECT name FROM user WHERE ID='$ID'"; 
               $qury = $conn->query($sql);
               $row = $qury->fetch_assoc();
-              echo $row['name'];
+              return $row['name'];
 
              $sql="SELECT name FROM user WHERE ID='$modID'"; 
              $query = $conn->query($sql);
               $row = $query->fetch_assoc();
-              echo $row['name'];
+              return $row['name'];
          }
-         
+ } 
 
+ function modCheck($userID){
+     
+    $sql="SELECT * FROM moderator WHERE ID='$userID' AND bloggMod=1";
+    $query = $conn->query($sql);
+    $om = $query->fetch_assoc();
+
+    if (!empty($om)){
+        $_SESSION['modnum']=1;
+    }else{
+        $_SESSION['modnum']=0;
+    }
+ }
 
 
 ?>

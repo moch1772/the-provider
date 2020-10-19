@@ -23,19 +23,29 @@ $sql = "SELECT userID FROM rolls WHERE bloggmod='1'";
           }
        
    }
-//det som är ovanför är bara för att ha något att visa
-if(isset($_POST['anvnamn'])) {
-   $anvNamn=$_POST['anvnamn'];
 
-         $sql="SELECT ID FROM anvandare WHERE name='$anvNamn'";
+if(isset($_POST['anvnamn'])) {
+   removeMod($_POST['anvnamn']);
+}
+
+//det som är ovanför är bara för att ha något att visa
+function removeMod($anvName){
+
+
+         $sql="SELECT ID FROM user WHERE name='$anvNamn'";
          $query = $conn->query($sql);
           
          $row = $query->fetch_assoc();
          $anvID=$row['ID'];
          
-          $sql="UPDATE rolls SET bloggmod=0 WHERE userID='$anvID'";
+          $sql="UPDATE moderator SET bloggMod=0 WHERE ID='$anvID'";
+          $conn->query($sql);
+
+          $sql="DELETE FROM moderator WHERE bloggMod=0 AND wikiMod=0";
           $conn->query($sql);
        
+
 }
+
 
    ?>
