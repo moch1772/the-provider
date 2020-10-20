@@ -1,5 +1,6 @@
 <?php
     require '../bloggpost.php';
+    include 'function';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +30,7 @@
 
 include "../dbsetup.php";
 $search=$_POST['search'];
+
 $result = mysqli_query($conn, "SELECT * FROM post where title like '%$search%'");
 while($row = mysqli_fetch_array($result))
 {
