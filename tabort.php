@@ -47,7 +47,7 @@ function removeMod($anvName){
        
 
 }
-function updateComent($comentID,userID){
+function updateComent($comentID,userID,$newText){
 
 
    $sql="UPDATE comment SET text='$newText' WHERE commentID='$comentID' AND userID='$userID'";
