@@ -1,14 +1,15 @@
 <?php
+ $conn = new mysqli('localhost', 'root','','provider');
+ $conn->set_charset("utf8");
+ if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+  }
 $userID=$_SESSION['userID'];
 
 
  function commenthistory(){
 
-    $conn = new mysqli('localhost', 'root','','provider');
-    $conn->set_charset("utf8");
-    if ($conn->connect_error) {
-     die("Connection failed: " . $conn->connect_error);
-     } 
+    
 
  $sql="SELECT * FROM commenthistory";
  $query = $conn->query($sql);
@@ -43,6 +44,13 @@ $userID=$_SESSION['userID'];
         $_SESSION['modnum']=0;
     }
  }
+function moddel($userID,$modNum){
+    $sql="SELECT  FROM coment WHERE ";
+    if($modNum=1){
+        removeComment($)
+    }
 
+
+}
 
 ?>

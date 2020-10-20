@@ -1,4 +1,5 @@
 <?php
+$userID=$_SESSION['userID'];
 
 $conn = new mysqli('localhost', 'root','','provider');
 $conn->set_charset("utf8");
@@ -46,6 +47,14 @@ function removeMod($anvName){
        
 
 }
+function updateComent($comentID,userID){
+
+
+   $sql="UPDATE comment SET text='$newText' WHERE commentID='$comentID' AND userID='$userID'";
+   $conn->query($sql);
+
+}
+
 
 
    ?>
