@@ -3,18 +3,17 @@
     session_start();
 ?>
 <?php
-if(!isset($_POST['submitpost'])) {
+/*if(!isset($_POST['submitpost'])) {
     $_POST['submitpost']="";
-}
-$SHOW=$_POST['submitpost'];
-if($SHOW=='Post'){
+}*/
+//$SHOW=$_POST['submitpost'];
+
     if(isset($_POST['submitpost'])){
         $bloggtitle = $_POST['bloggtitle'];
         $bloggtext = $_POST['bloggtext'];
         $showComments = $_POST['showComments'];
         newPost($bloggtitle, $bloggtext, $showComments, $_POST['submitpost'], $_POST['tag'], $conn);
-    } 
-}
+    }
     function newPost($bloggtitle, $bloggtext, $showComments, $tagpost, $tag, $conn) {
         if ($tagpost=="Post") {
         if(!empty($bloggtitle) && !empty($bloggtext)){
@@ -46,10 +45,9 @@ if($SHOW=='Post'){
             $array = array();
         }
     //$auther = mysqli_query($conn, "INSERT INTO post (title, text, showComments) VALUES ('BACON', 'BACON',1)");
-    if(!empty($tag)) {
+        if(!empty($tag)) {
             array_push($array, $tag);
         }
-        echo "helllo";
         $_SESSION['title']=$bloggtitle;
         $_SESSION['text']=$bloggtext;
         $_SESSION['array']=serialize($array);

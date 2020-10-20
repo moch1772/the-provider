@@ -21,17 +21,28 @@
         <input type="submit" name="submitpost" value="tag"></input>
         <!--<input type="submit" name="add-tag" value="Add tag"></input>-->
     </form>
-    <?php
-    echo $_SESSION['array'];
-    if(isset($_SESSION['array'])) {
+
+    <table style= "width: 20%;" border="2";>
+         <tr>
+            <td>Tag</td>
+            <td>Del</td>
+        </tr>
+
+    <?php if(!isset($_SESSION['array'])) {
         $tags = unserialize($_SESSION['array']);
-        foreach ($tags as $t) {
-            echo $t;
+        foreach ($tags as $t) { 
+    ?>
+            <tr>
+                <td><?php echo $t ?></td>
+                <td></td>
+            </tr>
+    <?php 
         }
     }
     ?>
+    </table>
 
-<table style="margin-left: 50%; margin-top: -30%;" border="2">
+<table style="position: fixed; margin-left: 50%; margin-top: -30%;" border="2">
   <tr>
     <td>postID</td>
     <td>anvID</td>
