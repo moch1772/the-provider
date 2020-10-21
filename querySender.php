@@ -11,7 +11,7 @@ if($_POST["submit"] == "Skapa kommentar"){
 }
 
 
-function uploadFile($file, $postID, $wiki, $conn){
+function uploadFile($file, $postID, $wiki, $xPos, $yPos, $conn){
   $target_dir = "uploads/";
   $target_file = $target_dir . basename($file["name"]);
   $errorCheck = 1;
@@ -51,8 +51,8 @@ function uploadFile($file, $postID, $wiki, $conn){
 
       $sokvag = "";
 
-      $sql = $conn->prepare("INSERT INTO bilder (sokvag, postID, wiki) VALUES (?, ?, ?);");
-      $sql->bind_param("sii", $sokvag, $postID, $wiki);
+      $sql = $conn->prepare("INSERT INTO bilder (sokvag, postID, wiki, yPos, xPos) VALUES (?, ?, ?, ?, ?);");
+      $sql->bind_param("siiss", $sokvag, $postID, $wiki, $yPos, $xPos);
 
       $sokvag = "uploads/".$name;
       $sql->execute();
