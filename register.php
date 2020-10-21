@@ -10,7 +10,7 @@ function register($con)
         //hashing the password
         $password=$_POST['password'];
         $hash=password_hash($password, PASSWORD_DEFAULT);
-$query=$con->prepare("insert into anvandare (anvNamn, losenord) values(?, ?)");
+$query=$con->prepare("insert into user (name, password) values(?, ?)");
 $query->bind_param("ss", $_POST['username'], $hash);
 if($query->execute())
 {
