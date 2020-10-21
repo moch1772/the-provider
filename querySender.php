@@ -94,4 +94,15 @@ function newBloggLog($description, $conn){
   $sql->close();
 }
   
+function editComment($commentID, $newText, $conn){
+  $sql = $conn->prepare("UPDATE comment SET text = ? WHERE commentID = $commentID;");
+  $sql->bind_param("s", $newText);
+
+  $sql->execute();
+  $sql->close();
+
+  newBloggLog("The comment with the comment ID: ".$commentID." was edited.", $conn);
+}
+
+
 ?>
