@@ -4,12 +4,12 @@
  if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
   }
-$userID=$_SESSION['userID'];
-
+//$userID=$_SESSION['userID'];
+date_default_timezone_set("Europe/Stockholm");
+         $datum=date("Y-m-d h:i");
+         echo $datum;
 
  function commenthistory(){
-
-    
 
  $sql="SELECT * FROM commenthistory";
  $query = $conn->query($sql);
@@ -44,10 +44,26 @@ $userID=$_SESSION['userID'];
         $_SESSION['modnum']=0;
     }
  }
-function moddel($userID,$modNum){
-    $sql="SELECT  FROM coment WHERE ";
+function modDelit($userID,$modNum,$commentID){
+    
     if($modNum=1){
-        removeComment($)
+        
+        $sql = "SELECT * FROM comment WHERE commentID='$commentID'";
+        $qury = $conn->query($sql);
+        $row = $qury->fetch_assoc();
+
+        $com=$row['commentID'];
+        $posterID=$row['userID'];
+        $postID=$row['postID'];
+        $text=$row['text'];
+
+
+        $sql="INSERT INTO commenthistory(commentID,postID,userID,text,dateTime,modID) VALUES('$com','$postID','$posterID','$text','$datum','$userID')";
+
+        $sql = "DELETE FROM comment WHERE commentID='$commentID'";
+  $conn->query($sql);
+    }else{
+        
     }
 
 
