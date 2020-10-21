@@ -2,17 +2,40 @@
 $con=new Mysqli("localhost", "root", "", "provider");
 $con->set_charset("utf8");
 
-function insertReport($con, $email, $description, $postId)
+function insertReport($con, $postId, $email, $description)
 {
-    if(isset($email)&&isset($description))
+    if(isset($email)&&isset($description)&&isset($postId))
     {
-     $query=$con->prepare("insert into report (PostID, email, beskrivning) values(?, ?, ?)");
+     $query=$con->prepare("insert into report (PostID, email, description) values(?, ?, ?)");
      $query->bind_param("iss", $postId, $email, $description);
      if($query->execute())      
+
      return TRUE;   
-     
     }
 }
+function insertReportComment($con, $commentId, $email, $description)
+{
+    if(isset($email)&&isset($description)&&isset($postId))
+    {
+     $query=$con->prepare("insert into report (CommentID, email, description) values(?, ?, ?)");
+     $query->bind_param("iss", $commentId, $email, $description);
+     if($query->execute())      
+     return TRUE;    
+    }  
+}
+function insertReportStatus($con, $reportId , $status)
+{
+    if(isset($reportId))
+    {
+        echo $reportId .=" ";
+        echo $status;
+    $query=$con->prepare("update report set resolved=? where reportID=?");
+    $query->bind_param("ii", $status, $reportId);
+      if($query->execute())      
+    return TRUE;    
+   }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,15 +45,13 @@ function insertReport($con, $email, $description, $postId)
     <title>Document</title>
 </head>
 <body>
-    <form method="post">
-    <input type="text" name="email" placeholder="vänligen skriv in din mail" required>
-    <input type="text" name="description" placeholder=" vänligen skriv en kort beskrivning om problemet">
-    <input type="submit" name="submit" value="submit">
-    </form>
+<form method="post"><input type="submit" name="submit" value="submit">
+</form>
     <?php
     if(isset($_POST['submit']))
     {
-    $isInserted=insertReport($con, 1, $_POST['email'], $_POST['description']);
+    //$isInserted=insertReport($con, 1, $_POST['email'], $_POST['description']);
+$isInserted=insertReportStatus($con, 5, 1);
     if($isInserted==TRUE)
     echo "true";
     else
