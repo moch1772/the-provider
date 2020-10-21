@@ -4,8 +4,13 @@ include 'function.php';
 include "../dbsetup.php";
 
 $text=searchTitle($_POST['search'],'title',$conn);
+$text=json_decode($text);
+//echo $text;
 foreach($text as $i){
-    echo $i;
+    foreach($i as $l){
+        echo $l;
+        echo "<br>";
+    }
     echo "<br>";
 }
 
