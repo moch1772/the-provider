@@ -6,7 +6,8 @@
   }
 //$userID=$_SESSION['userID'];
 
-         commenthistory($conn);
+       commenthistory($conn);
+      
 
  function commenthistory($conn){
 
@@ -20,15 +21,18 @@
 
               $sql="SELECT name FROM user WHERE ID='$ID'"; 
               $qury = $conn->query($sql);
-              $row = $qury->fetch_assoc();
-              $name=$row['name'];
+              $rew = $qury->fetch_assoc();
+             
 
              $sql="SELECT name FROM user WHERE ID='$modID'"; 
-             $query = $conn->query($sql);
-              $row = $query->fetch_assoc();
-              $modn=$row['name'];
-              echo $text,$name,$modn;
+             $qery = $conn->query($sql);
+              $rw = $qery->fetch_assoc();
+
+              echo $row['text'],$rw['name'],$rew['name'];
+            
+            
          }
+ 
  } 
 
  function modCheck($userID){
@@ -69,5 +73,7 @@ function modDelit($userID,$modNum,$commentID){
 
 
 }
+
+
 
 ?>
