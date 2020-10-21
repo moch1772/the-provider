@@ -5,30 +5,29 @@
   die("Connection failed: " . $conn->connect_error);
   }
 //$userID=$_SESSION['userID'];
-date_default_timezone_set("Europe/Stockholm");
-         $datum=date("Y-m-d h:i");
-         echo $datum;
 
- function commenthistory(){
+         commenthistory($conn);
+
+ function commenthistory($conn){
 
  $sql="SELECT * FROM commenthistory";
- $query = $conn->query($sql);
+ $query = $conn->query($sql);    
         
          while($row = $query->fetch_assoc()){
-             return $row['text'];
-
+            $text=$row['text'];
              $ID=$row['userID'];
              $modID=$row['modID'];
 
               $sql="SELECT name FROM user WHERE ID='$ID'"; 
               $qury = $conn->query($sql);
               $row = $qury->fetch_assoc();
-              return $row['name'];
+              $name=$row['name'];
 
              $sql="SELECT name FROM user WHERE ID='$modID'"; 
              $query = $conn->query($sql);
               $row = $query->fetch_assoc();
-              return $row['name'];
+              $modn=$row['name'];
+              echo $text,$name,$modn;
          }
  } 
 
@@ -45,7 +44,9 @@ date_default_timezone_set("Europe/Stockholm");
     }
  }
 function modDelit($userID,$modNum,$commentID){
-    
+    date_default_timezone_set("Europe/Stockholm");
+         $datum=date("Y-m-d h:i");
+
     if($modNum=1){
         
         $sql = "SELECT * FROM comment WHERE commentID='$commentID'";
