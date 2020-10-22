@@ -11,8 +11,14 @@
 </head>
 <body>
     <form action="" method="POST">
-        <input type="text" name="bloggtitle" placeholder="Title"></input><br></br>
-        <textarea name="bloggtext" rows="20" cols="50" placeholder="Content"></textarea>
+        <input type="text" name="bloggtitle" placeholder="Title"
+        <?php
+            if(isset($_SESSION['title'])) {
+                echo "value=".$_SESSION['title'];
+            }
+        ?>
+        ></input><br></br>
+        <textarea name="bloggtext" rows="20" cols="50" placeholder="Content"><?php if(isset($_SESSION['text'])) {echo $_SESSION['text'];}?></textarea>
         <input type="submit" name="submitpost" value="Post"><br></br>
         <label for="comment">Tillåt kommentarer</label>
         <input type="hidden" name="showComments" value="0"></input>
@@ -25,16 +31,21 @@
     <table style= "width: 20%;" border="2";>
          <tr>
             <td>Tag</td>
-            <td>Del</td>
+            <td>Remove</td>
         </tr>
 
-    <?php if(!isset($_SESSION['array'])) {
+    <?php if(isset($_SESSION['array'])) {
+        if(isset($_POST['submit2'])) {
+            remove($_POST['submit2']);
+        }
         $tags = unserialize($_SESSION['array']);
         foreach ($tags as $t) { 
     ?>
             <tr>
                 <td><?php echo $t ?></td>
-                <td></td>
+                <?php
+                    echo'<td><form method="POST"><input type="submit" name="submit2" value='.$t.'></form></td>';
+                ?>
             </tr>
     <?php 
         }

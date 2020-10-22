@@ -30,27 +30,49 @@
                 echo "New records created successfully";
                 
                 $stmt->close();
-                $conn->close();
+                //$conn->close();
         } else {
             echo "You must enter a title and content";
         }
+        $array = unserialize($_SESSION['array']);
+        if(!empty($array)) {
+            $sql = "SELECT postID FROM post where text='$bloggtext' AND title='$bloggtitle'";
+            $result = $conn->query($sql);
+            while($row = $result->fetch_assoc()) {
+                foreach($array as $fullsend) {
+                    $commando = "INSERT INTO tag(postID, tag) VALUES ('".$row["postID"]."', '$fullsend')";
+                    $confirm = mysqli_query($conn, $commando);
+                }
+            }
+        }
+        session_destroy();
     }
 
     if($tagpost=='tag'){
         if(isset($_SESSION['array'])) {
             $array = unserialize($_SESSION['array']);
-            echo "hello";
         }
         else {
             $array = array();
         }
     //$auther = mysqli_query($conn, "INSERT INTO post (title, text, showComments) VALUES ('BACON', 'BACON',1)");
-        if(!empty($tag)) {
+        if(strlen($tag)>0) {
             array_push($array, $tag);
         }
         $_SESSION['title']=$bloggtitle;
         $_SESSION['text']=$bloggtext;
         $_SESSION['array']=serialize($array);
     }
+}
+function remove($remove) {
+    $array = unserialize($_SESSION['array']);
+    $key = array_search($remove, $array);
+    unset($array[$key]);
+    $_SESSION['array']=serialize($array);
+}
+
+function deleteTag($deleteTag) {
+    
+    mysqli_query($conn, "DELETE FROM tag where postID='$postID'");
 }
 ?>
