@@ -1,7 +1,8 @@
 <?php 
 include "../dbsetup.php";
-//needs search word and name of field in string format
-function searchTitle($search,$field,$conn)
+//returns json array with the elements from the database that conn conects to.
+//the elements has to do with the search word in som way in tags or in title
+function search($search,$conn)
 {
     $result = mysqli_query($conn, "SELECT * FROM post where title like '%$search%'");
     $request=array();
@@ -21,8 +22,6 @@ function searchTitle($search,$field,$conn)
     }
     $request=array_map("unserialize", array_unique(array_map("serialize", $request)));
     $request=json_encode($request,true);
-    //echo$json;
-    //echo"<br>";
     return $request;
     }
 
