@@ -1,7 +1,8 @@
 <?php
 
  
- 
+$conn = new mysqli('localhost', 'root','','provider');
+$conn->set_charset("utf8");
 
    echo'<form action="moder.php" method="post">
    <input type="text" name="anvendare" requierd>
@@ -9,13 +10,12 @@
    </form>';
 
    if(isset($_POST['submit'])){
-   bloggMOD($_POST['anvendare']);
+   bloggMOD($_POST['anvendare'],$conn);
    }
 
-function bloggMOD($anvNamn){
+function bloggMOD($anvNamn,$conn){
 
-    $conn = new mysqli('localhost', 'root','','provider');
-$conn->set_charset("utf8");
+   
 
  $bloggMod=1;
  
