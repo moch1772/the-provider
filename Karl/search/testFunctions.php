@@ -1,7 +1,7 @@
 <?php 
-require '../bloggpost.php';
-include 'function.php';
-include "../dbsetup.php";
+//require '../../bloggpost.php';
+include '../function/search.php';
+//include "../../dbsetup.php";
 
 $text=search($_POST['search'],$conn);
 $text=json_decode($text);
