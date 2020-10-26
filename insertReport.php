@@ -48,15 +48,11 @@ function insertReportStatus($con, $reportId , $status)
 <form method="post"><input type="submit" name="submit" value="submit">
 </form>
     <?php
-    if(isset($_POST['submit']))
-    {
-    //$isInserted=insertReport($con, 1, $_POST['email'], $_POST['description']);
-$isInserted=insertReportStatus($con, 5, 1);
-    if($isInserted==TRUE)
-    echo "true";
-    else
-    echo "false";
-    }
+{
+
+}
+
+
     ?>
 </body>
 </html>
