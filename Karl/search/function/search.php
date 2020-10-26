@@ -1,5 +1,5 @@
 <?php 
-include "../dbsetup.php";
+include "../../dbsetup.php";
 //returns json array with the elements from the database that conn conects to.
 //the elements has to do with the search word in som way in tags or in title
 function search($search,$conn)
@@ -24,6 +24,5 @@ function search($search,$conn)
     $request=json_encode($request,true);
     return $request;
     }
-
 
 ?>
