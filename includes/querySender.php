@@ -2,15 +2,6 @@
 
 include "db.php";
 
-if($_POST["submit"] == "Ladda upp"){
-  uploadFile($_FILES["fileToUpload"], 0, 0, $conn);
-}
-
-if($_POST["submit"] == "Skapa kommentar"){
-  insertNewComment($_POST["post"], $_POST["user"], $_POST["commentText"], $conn);
-}
-
-
 function uploadFile($file, $postID, $wiki, $xPos, $yPos, $conn){
   $target_dir = "uploads/";
   $target_file = $target_dir . basename($file["name"]);
