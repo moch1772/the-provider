@@ -44,6 +44,7 @@
         <input type="text" name="bloggtitle" value="<?php echo $row['title']; ?>" placeholder="Title" Required><br></br>
         <textarea name="bloggtext" rows="20" cols="50" placeholder="Content"><?php echo $row['text']; ?></textarea>
         <input type="submit" name="update" value="Update"><br></br>
+
         <label for="Showcomments">Tillåt kommentarer</label>
         <input type="hidden" name="showComments" value="0"></input>
         <input type="checkbox" name="showComments" value="<?php echo $row['showComments']; ?>">
