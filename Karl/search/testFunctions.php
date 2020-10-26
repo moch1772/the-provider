@@ -1,6 +1,6 @@
 <?php 
 //require '../../bloggpost.php';
-include '../function/search.php';
+include 'function/search.php';
 //include "../../dbsetup.php";
 
 $text=search($_POST['search'],$conn);
