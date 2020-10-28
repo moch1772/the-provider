@@ -35,7 +35,7 @@
             header("location:blogg.php");
             exit;
         } else {
-            echo mysqli_error();
+            echo mysqli_error($link);
         }
     }
 ?>
