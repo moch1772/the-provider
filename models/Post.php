@@ -42,6 +42,8 @@ class Post{
         $this->showComments = $row['showComments'];
         $this->text = $row['text'];
         $this->title = $row['title'];
+        
+        return $stmt;
     }
 
 
