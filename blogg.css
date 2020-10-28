@@ -1,0 +1,144 @@
+body {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    overflow-x: hidden;
+    background-color: #d1e8e2;
+}
+
+.banner {
+    width: 100vw;
+    height: 60vh;
+    background-color: aquamarine;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1%;
+    background-image: url(technology.png);
+}
+
+.name-holder {
+    display: flex;
+    width: 30%;
+    justify-content: center;
+    align-items: center;
+    height: 20%;
+    background-color: whitesmoke;
+}
+
+.blogg-name {
+    font-size: 50px;
+
+}
+
+.socials {
+    position: absolute;
+    right: 0;
+    top: 55vh;
+    width: 12.5%;
+    margin-right: 2%;
+    height: 5%;
+    background-color: #d1e8e2;
+}
+
+.content {
+    position: relative;
+    float: left;
+    padding-left: 2%;
+    width: 70vw;
+    height: 100vh;
+}
+
+.post {
+    position: relative;
+    float: left;
+    width: 70vw;
+    height: 100vh;
+    background-color: whitesmoke;
+    margin-bottom: 1%;
+}
+
+.titleplace {
+    width: 80%;
+    text-align: center;
+    vertical-align: center;
+    height: 20%;
+    margin: 2% 0% 0% 10%;
+}
+
+.post-author {
+    margin-top: 1%;
+}
+
+.post-title {
+    display: inline-block;
+    vertical-align: center;
+}
+
+.line {
+    width: 80%;
+    height: 1%;
+    margin-left: 50%;
+    margin: auto;
+    background-color: lightgray;
+}
+
+
+.post-textholder {
+    width: 95%;
+    height: 75%;
+    margin-left: 50%;
+    margin: auto;
+}
+
+.image-frame {
+    width: 100%;
+    height: 40%;
+    background-color: whitesmoke;
+    margin-top: 2%;
+    display: flex;
+    justify-content: center;
+}
+
+.image {
+    width: 75%;
+    height: 95%;
+    background-color: red;
+}
+
+.line-bio {
+    width: 85%;
+    height: 0.5%;
+    margin-left: 50%;
+    margin: auto;
+    background-color: lightgray;
+}
+
+.bio {
+    float: left;
+    width: 25vw;
+    margin-left: 1%;
+    height: 100vh;
+    background-color: whitesmoke;
+}
+
+.bio-textholder {
+    width: 100%;
+    height: 30%;
+    background-color: turquoise;
+    display: flex;
+    margin-top: 2%;
+    justify-content: center;
+    align-items: center;
+}
+
+.bio-text {
+    width: 90%;
+    height: 100%;
+    background-color: tomato;
+    display: flex;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
