@@ -1,9 +1,8 @@
 <?php    
 header("Content-Type:application/json");
-$con=new Mysqli("localhost", "root", "", "provider");
-$con->set_charset("utf8");
+include_once("config/db.php");
 
-function fetchReport($con)
+function fetchReport($conn)
 {
 $query="select * from report";
     if($result=$con->query($query))
@@ -24,7 +23,7 @@ $json=json_encode($array);
 }
 if(isset($_GET['insertReport'])&&strlen($_GET['insertReport'])>0)
 {
-$str=fetchReport($con);
+$str=fetchReport($conn);
 echo $str;
 }
 ?>
