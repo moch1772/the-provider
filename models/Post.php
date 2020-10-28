@@ -46,6 +46,9 @@ class Post{
         return $stmt;
     }
 
+    public function newPost(){
+        
+    }
 
 }
 
