@@ -1,17 +1,27 @@
 <?php 
+    class Search{
 include "../config/db.php";
 //returns json array with the elements from the database that conn conects to.
 //the elements has to do with the search word in som way in tags or in title
 //Vaqriable must be JSON for this to work
-function search($search,$conn)
+function searches($conn)
 {   
-    $search=json_decode($search);
+    $search=$_GET['search'];
+    $query="SELECT * FROM post where title like '%$search%'";
+    //$search=json_decode($search);
     $result = mysqli_query($conn, "SELECT * FROM post where title like '%$search%'");
     $request=array();
     while($row = mysqli_fetch_array($result)){
         $holder=array("Title"=>$row['title'],"text"=>$row['text'],"Datum_och_tid"=>$row['dateTime']);
         array_push($request,$holder);
     }
+
+
+
+}
+}
+
+
     $sql="SELECT postID FROM tag where tag like '%$search%'";
     $tag = mysqli_query($conn, $sql);
     while($row = mysqli_fetch_assoc($tag)){
