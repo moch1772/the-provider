@@ -24,6 +24,27 @@ class Post{
         return $stmt;
     }
 
+    public function read_single() {
+        $sql = 'SELECT p.postID, p.userID, p.dateTime, p.showComments, p.text, p.title
+        FROM '.$this->table. ' p
+        WHERE p.postID = ?
+        LIMIT 0,1';
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(1, $this->id);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->postID = $row['postID'];
+        $this->userID = $row['userID'];
+        $this->dateTime = $row['dateTime'];
+        $this->showComments = $row['showComments'];
+        $this->text = $row['text'];
+        $this->title = $row['title'];
+    }
+
+
 }
 
 

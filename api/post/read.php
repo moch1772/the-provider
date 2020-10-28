@@ -22,11 +22,11 @@ if($rowCount > 0){
         extract($row);
 
         $post_item = array(
-            'id' => $postID,
+            'postID' => $postID,
             'title' => $title,
             'text' => html_entity_decode($text),
-            'date' => $dateTime,
-            'uid' => $userID,
+            'dateTime' => $dateTime,
+            'userID' => $userID,
             'showComments' => $showComments
         );
 
