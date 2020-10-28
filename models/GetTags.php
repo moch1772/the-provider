@@ -1,5 +1,5 @@
 <?php
-include "../../dbsetup.php";
+include "../config/db.php";
 function tags($conn)
 {   
     $result = mysqli_query($conn, "SELECT * FROM tag");
