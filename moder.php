@@ -1,16 +1,17 @@
 <?php
 
  
+header("Content-Type:application/json");
+ 
 $conn = new mysqli('localhost', 'root','','provider');
 $conn->set_charset("utf8");
 
-   echo'<form action="moder.php" method="post">
-   <input type="text" name="anvendare" requierd>
-   <input type="submit" name="submit">
-   </form>';
 
-   if(isset($_POST['submit'])){
-   bloggMOD($_POST['anvendare'],$conn);
+
+
+ 
+   if(isset($_GET['nomore'])&& strlen($_GET['nomore']) >0){
+   bloggMOD($_GET['nomore'],$conn);
    }
 
 function bloggMOD($anvNamn,$conn){
