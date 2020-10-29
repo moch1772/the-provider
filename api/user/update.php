@@ -2,29 +2,29 @@
 
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Methods: PUT');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods,Authorization, X-Requseted-With');
 
 include_once '../../config/db.php';
-include_once '../../models/Post.php';
+include_once '../../models/User.php';
 
 $database = new Database();
 $db = $database->connect();
 
-$post = new Post($db);
+$user = new user($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
-$post->userID = $data->userID;
-$post->showComments = $data->showComments;
-$post->text = $data->text;
-$post->title = $data->title;
+$user->ID = $data->ID;
+$user->name = $data->name;
+$user->lastname = $data->lastname;
+$user->password = $data->password;
 
-if($post->create()){
-    echo json_encode(array('message' => 'Post Created'));
+if($user->update()){
+    echo json_encode(array('message' => "user updated"));
 }else{
     echo json_encode(
-        array('message'=>'Post Not created')
+        array('message'=>'user Not updated')
     );
 }
 
