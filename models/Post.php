@@ -46,6 +46,7 @@ class Post{
         return $stmt;
     }
 
+
     public function create(){
         $sql='INSERT INTO '.$this->table.'
         SET
