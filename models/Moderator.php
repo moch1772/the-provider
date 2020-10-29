@@ -3,8 +3,8 @@ class Moderator{
     private $conn;
     private $table='moderator';
 
-    public $ID;
-    public $
+    public $userID;
+    
 
     public function __construct($db) {
         $this->conn = $db;
@@ -27,20 +27,21 @@ class Moderator{
         $stmt->execute();
     }
     public function createBMod(){
-        $sql = "SELECT bloggmod FROM moderator WHERE userID=?";
+        $sql = "SELECT bloggMod FROM moderator WHERE userID=?";
       
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(1, $this->id);
         $stmt->execute();
+         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!empty($stmt)){
+        $Mod=$row['bloggMod'];
+        
+        if (isset($Mod)){
             
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $Mod=$row['bloggmod'];
+           
 switch ($Mod) {
     case '0':
-        $sql="UPDATE moderator SET bloggMod='$bloggMod' WHERE userID=?";
+        $sql="UPDATE moderator SET bloggMod=1 WHERE userID=?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(1, $this->id);
         $stmt->execute();
@@ -65,9 +66,7 @@ switch ($Mod) {
     }
       
         
-    
-    
-    public function comentHistory(){
+    public function modHistory(){
         $sql="SELECT * FROM commenthistory";
 
 
@@ -78,5 +77,58 @@ switch ($Mod) {
 
     }
 
+    public function deleteWMod(){
+     
+        $sql="UPDATE moderator SET wikiMod=0 WHERE userID=?";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(1, $this->id);
+        $stmt->execute();
+
+        
+        $sql="DELETE FROM moderator WHERE bloggMod=0 AND wikiMod=0";
+
+      $stmt = $this->conn->prepare($sql);
+      $stmt->execute();
+  }
+
+  public function createWMod(){
+      $sql = "SELECT wikiMod FROM moderator WHERE userID=?";
+    
+      $stmt = $this->conn->prepare($sql);
+      $stmt->bindParam(1, $this->id);
+      $stmt->execute();
+
+ $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      $Mod=$row['wikiMod'];
+      if (!empty($Mod)){
+          
+         
+switch ($Mod) {
+  case '0':
+      $sql="UPDATE moderator SET wikiMod=1 WHERE userID=?";
+      $stmt = $this->conn->prepare($sql);
+      $stmt->bindParam(1, $this->id);
+      $stmt->execute();
+      break;
+  
+  case '1':
+      echo'är redan inloggad';
+      break;
+}
+      
+      }else{
+
+     $sql="INSERT INTO moderator(userID,bloggMod) VALUES(?,1)";
+
+      $stmt = $this->conn->prepare($sql);
+      $stmt->bindParam(1, $this->id);
+      $stmt->execute();
+      }
+
+      
+      
+  }
 }
 ?>

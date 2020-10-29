@@ -1,5 +1,5 @@
 <?php
-//$userID=$_SESSION['userID'];
+
 include '../../config/db.php'; 
 include_once '../../models/Moderator.php';
 
@@ -17,11 +17,11 @@ $new = new Moderator($db);
 
 $new->id = isset($_GET['userID']) ? $_GET['userID'] : die();
  $new->deleteBMod();
- 
+
 echo 'k';
 
 
-//det som är ovanför är bara för att ha något att visa
+
 /*function removeMod($anvName,$conn){
 
 

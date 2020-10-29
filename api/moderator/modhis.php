@@ -1,11 +1,44 @@
 <?php
- include '../config/db.php';
-//$userID=$_SESSION['userID'];
+ 
+ include_once '../../config/db.php';
+ include_once '../../models/Moderator.php';
+ 
+ $database = new Database();
+ $db = $database->connect();
+ 
+ $his = new Moderator($db);
+ 
+ $result = $his->modHistory();
+ $rowCount = $result->rowCount();
 
-       commenthistory($conn);
-      
+ if($rowCount > 0){
+    $his_arr = array();
+    $his_arr['data'] = array();
 
- function commenthistory($conn){
+    while($row = $result->fetch(PDO::FETCH_ASSOC)){
+        extract($row);
+
+        $his_item = array(
+            'postID' => $postID,
+            'commentID' => $commentID,
+            'text' => html_entity_decode($text),
+            'dateTime' => $dateTime,
+            'userID' => $userID,
+            'modID' => $modID
+        );
+
+        array_push($his_arr['data'], $his_item);
+    }
+
+    echo json_encode($his_arr);
+}else {
+        echo json_encode(
+            array('message' => 'No Posts Found')
+        );
+        
+    }
+
+ /*function commenthistory($conn){
 
  $sql="SELECT * FROM commenthistory";
  $query = $conn->query($sql);    
@@ -68,7 +101,7 @@ function modDelit($userID,$modNum,$commentID){
     }
 
 
-}
+}*/
 
 
 
