@@ -3,7 +3,7 @@
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-include_once '../../config/testdbconn.php';
+include_once '../../config/db.php';
 include_once '../../models/Comment.php';
 
 $database = new Database();
@@ -11,7 +11,7 @@ $db = $database->connect();
 
 $comment = new Comment($db);
 
-$comment->postID = isset($_GET['postID']) ? $_GET['postID'] : die();
+$comment->id = isset($_GET['postID']) ? $_GET['postID'] : die();
 
 $result = $comment->read();
 $rowCount = $result->rowCount();
@@ -38,7 +38,7 @@ if($rowCount > 0){
 
 } else {
     echo json_encode(
-        array('message' => 'No Posts Found')
+        array('message' => 'No Comments Found')
     );
 }
 
