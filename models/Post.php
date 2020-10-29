@@ -46,6 +46,33 @@ class Post{
         return $stmt;
     }
 
+    public function create(){
+        $sql='INSERT INTO '.$this->table.'
+        SET
+            userID = :userID,
+            showComments= :showComments,
+            text = :text,
+            title = :title';
+        
+        $stmt = $this->conn->prepare($sql);
+        $this->userID = htmlspecialchars(strip_tags($this->userID));
+        $this->showComments = htmlspecialchars(strip_tags($this->showComments));
+        $this->text = htmlspecialchars(strip_tags($this->text));
+        $this->title = htmlspecialchars(strip_tags($this->title));
+
+        $stmt->bindParam(':userID', $this->userID);
+        $stmt->bindParam(':showComments', $this->showComments);
+        $stmt->bindParam(':text', $this->text);
+        $stmt->bindParam(':title', $this->title);
+
+        if($stmt->execute()){
+            return true;
+        }
+
+        printf("Error: %s. \n", $stmt->error);
+        return false;
+    }
+
 
 }
 
