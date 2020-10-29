@@ -34,7 +34,7 @@
             FROM '.$this->table. ' p
             RIGHT JOIN '.$this->table2.' C
             ON p.postID = c.postID
-            WHERE C.tag =?';
+            WHERE C.tag LIKE "%"?"%"';
         
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(1, $this->search);
