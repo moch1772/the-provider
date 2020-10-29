@@ -48,6 +48,7 @@ class Post{
 
 
     public function create(){
+        //query
         $sql='INSERT INTO '.$this->table.'
         SET
             userID = :userID,
@@ -60,13 +61,67 @@ class Post{
         $this->showComments = htmlspecialchars(strip_tags($this->showComments));
         $this->text = htmlspecialchars(strip_tags($this->text));
         $this->title = htmlspecialchars(strip_tags($this->title));
-
+        //Sätt/bind data
         $stmt->bindParam(':userID', $this->userID);
         $stmt->bindParam(':showComments', $this->showComments);
         $stmt->bindParam(':text', $this->text);
         $stmt->bindParam(':title', $this->title);
 
+        //execute
         if($stmt->execute()){
+            return true;
+        }
+
+        printf("Error: %s. \n", $stmt->error);
+        return false;
+    }
+
+    //Update Post
+    public function Update(){
+        //Query
+        $sql='UPDATE '.$this->table.'
+        SET
+            showComments= :showComments,
+            text = :text,
+            title = :title
+            WHERE 
+            postID = :postID';
+        
+        //Prepare
+        $stmt = $this->conn->prepare($sql);
+
+        $this->showComments = htmlspecialchars(strip_tags($this->showComments));
+        $this->text = htmlspecialchars(strip_tags($this->text));
+        $this->title = htmlspecialchars(strip_tags($this->title));
+        $this->postID = htmlspecialchars(strip_tags($this->postID));
+
+        //sätt data/Bind data
+        $stmt->bindParam(':postID', $this->postID);
+        $stmt->bindParam(':showComments', $this->showComments);
+        $stmt->bindParam(':text', $this->text);
+        $stmt->bindParam(':title', $this->title);
+
+        if($stmt->execute()){
+            return true;
+        }
+
+        printf("Error: %s. \n", $stmt->error);
+        return false;
+    }
+
+    public function Delete(){
+        //Query
+        $sql ='DELETE FROM '.$this->table .' WHERE postID= ?';
+
+        //Prepare
+        $stmt = $this->conn->prepare($sql);
+
+        //sätt data/Bind data
+        $stmt->bindParam(1, $this->postID);
+
+        //Execute query
+        if($stmt->execute()){
+            echo $sql;
             return true;
         }
 
