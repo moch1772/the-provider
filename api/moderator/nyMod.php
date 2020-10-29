@@ -1,15 +1,29 @@
 <?php
-
+header('Access-Control-Allow-Origin: *');
  
-header("Content-Type:application/json");
+header('Content-Type:application/json');
  
-include 'config/db.php';
+include_once '../../config/db.php';
+include_once '../../models/Moderator.php';
+
+$database = new Database();
+$db = $database->connect();
+
+$new = new Moderator($db);
+
+
+
+$new->id = isset($_GET['userID']) ? $_GET['userID'] : die();
+ $new->createBMod();
+echo 'ok';
 
 
 
 
- 
-   if(isset($_GET['nomore'])&& strlen($_GET['nomore']) >0){
+
+
+
+   /*if(isset($_GET[''])&& strlen($_GET['nomore']) >0){
    bloggMOD($_GET['nomore'],$conn);
    }
 
@@ -55,7 +69,7 @@ switch ($Mod) {
        $conn->query($sql);
         }
 }
-} 
+} */
    
    
 ?>
