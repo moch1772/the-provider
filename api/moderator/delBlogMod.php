@@ -21,32 +21,4 @@ $new->id = isset($_GET['userID']) ? $_GET['userID'] : die();
 echo 'k';
 
 
-
-/*function removeMod($anvName,$conn){
-
-
-         $sql="SELECT ID FROM user WHERE name='$anvNamn'";
-         $query = $conn->query($sql);
-          
-         $row = $query->fetch_assoc();
-         $anvID=$row['ID'];
-         
-          $sql="UPDATE moderator SET bloggMod=0 WHERE ID='$anvID'";
-          $conn->query($sql);
-
-          $sql="DELETE FROM moderator WHERE bloggMod=0 AND wikiMod=0";
-          $conn->query($sql);
-       
-
-}
-function updateComent($comentID,userID,$newText){
-
-
-   $sql="UPDATE comment SET text='$newText' WHERE commentID='$comentID' AND userID='$userID'";
-   $conn->query($sql);
-
-}*/
-
-
-
    ?>
