@@ -27,10 +27,14 @@
         
         return $stmt;
         }
+
+
         public function read_Tag(){
             $sql = 'SELECT p.postID, p.userID, p.dateTime, p.showComments, p.text, p.title
             FROM '.$this->table. ' p
-            WHERE p.postID =?';
+            RIGHT JOIN '.$this->table2.' C
+            ON p.postID = c.postID
+            WHERE C.tag =?';
         
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(1, $this->search);
