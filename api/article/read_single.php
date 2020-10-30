@@ -11,7 +11,7 @@ $db = $database->connect();
 
 $article = new Article($db);
 
-$article->id = isset($_GET['wikiID']) ? $_GET['wikiID'] : die();
+$article->wikiID = isset($_GET['wikiID']) ? $_GET['wikiID'] : die();
 
 $article->read_single();
 

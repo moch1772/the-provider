@@ -31,7 +31,7 @@ class Article{
         LIMIT 0,1';
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(1, $this->id);
+        $stmt->bindParam(1, $this->wikiID);
         $stmt->execute();
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -47,15 +47,19 @@ class Article{
     }
     
     public function create() {
-        $sql = 'INSERT INTO ' . $this->table . ' SET title = :title, text = :text';
+        $sql = 'INSERT INTO ' . $this->table . ' SET title = :title, text = :text, userID = :userID, version = :version';
 
         $stmt = $this->conn->prepare($sql);
 
         $this->title = htmlspecialchars(strip_tags($this->title));
         $this->text = htmlspecialchars(strip_tags($this->text));
+        $this->userID = htmlspecialchars(strip_tags($this->userID));
+        $this->version = htmlspecialchars(strip_tags($this->version));
 
         $stmt->bindParam(':title', $this->title);
         $stmt->bindParam(':text', $this->text);
+        $stmt->bindParam(':userID', $this->userID);
+        $stmt->bindParam(':version', $this->version);
 
         if($stmt->execute()) {
             return true;
@@ -72,7 +76,9 @@ class Article{
         $sql='UPDATE '.$this->table.'
         SET
             text = :text,
-            title = :title
+            title = :title,
+            userID = :userID,
+            version = :version
             WHERE 
             wikiID = :wikiID';
         
@@ -81,12 +87,16 @@ class Article{
 
         $this->text = htmlspecialchars(strip_tags($this->text));
         $this->title = htmlspecialchars(strip_tags($this->title));
+        $this->userID = htmlspecialchars(strip_tags($this->userID));
         $this->wikiID = htmlspecialchars(strip_tags($this->wikiID));
+        $this->version = htmlspecialchars(strip_tags($this->version));
 
         //sätt data/Bind data
         $stmt->bindParam(':wikiID', $this->wikiID);
         $stmt->bindParam(':text', $this->text);
         $stmt->bindParam(':title', $this->title);
+        $stmt->bindParam(':userID', $this->userID);
+        $stmt->bindParam(':version', $this->version);
 
         if($stmt->execute()){
             return true;
