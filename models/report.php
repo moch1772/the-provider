@@ -52,6 +52,24 @@ public function insertReportStatus($conn, $reportId , $status)
     return TRUE;        
   }
 }
+public function getReport($reportId)
+{
+  $query="select * from report where reportID=$reportId";
+  if($result=$conn->query($query))
+  {
+$array=array();
+while($row=$result->fetch(PDO::FETCH_ASSOC))
+{
+foreach($row as $i)
+$array[]=$i;
+}
+$json=json_encode($array);
+    
+  }
+return $json;  
+
+}
+
 
 }
 
