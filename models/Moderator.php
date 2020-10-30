@@ -120,7 +120,7 @@ switch ($Mod) {
       
       }else{
 
-     $sql="INSERT INTO moderator(userID,bloggMod) VALUES(?,1)";
+     $sql="INSERT INTO moderator(userID,wikiMod) VALUES(?,1)";
 
       $stmt = $this->conn->prepare($sql);
       $stmt->bindParam(1, $this->id);
