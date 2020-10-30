@@ -52,7 +52,7 @@ public function insertReportStatus($conn, $reportId , $status)
     return TRUE;        
   }
 }
-public function getReport($reportId)
+public function getReport($conn, $reportId)
 {
   $query="select * from report where reportID=$reportId";
   if($result=$conn->query($query))
