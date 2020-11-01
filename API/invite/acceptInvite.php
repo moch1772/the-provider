@@ -16,15 +16,13 @@ $ev = new Kalender($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
-$ev->userID = $data->userID;
-$ev->description = $data->description;
-$ev->dateTime = $data->dateTime;
-
+$ev->eventrID = $data->userID;
+$ev->resiverID = $data->resiverID;
 
 
 echo 'ses';
 
-$ev->createEvent();
+$ev->acceptInvite();
 
 
 ?>

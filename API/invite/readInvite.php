@@ -13,9 +13,9 @@ $db = $database->connect();
 $new = new Kalender($db);
 
 
-$new->id = isset($_GET['userID']) ? $_GET['userID'] : die();
+$new->id = isset($_GET['eventID']) ? $_GET['eventID'] : die();
 
-$result=$new->userEvent();
+$result=$new->readIvite();
 $rowCount = $result->rowCount();
 
 if ($rowCount > 0) {
@@ -26,9 +26,8 @@ if ($rowCount > 0) {
 
  $new_item = array(
     'eventID' => $eventID,
-    'description' => $description,
-    'userID' => $userID,
-    'dateTime' => $dateTime
+    'resiverID' => $resiverID,
+    'accept' => $accept
 );
 array_push($new_arr['data'],$new_item);
 
@@ -43,5 +42,4 @@ array_push($new_arr['data'],$new_item);
 
 
 print_r(json_encode($new_arr));
-
 ?>
