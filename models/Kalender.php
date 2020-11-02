@@ -26,17 +26,21 @@ class Kalender{
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':dateTime', $this->dateTime);
        
-        $stmt->execute();
-       
-        echo 'sås';
+        if($stmt->execute()){
+            return true;
+        }
+
+        printf("Error: %s. \n", $stmt->error);
+        return false;
     }
+    
     public function deleteEvent(){
         $sql="DELETE FROM event WHERE eventID=?";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(1, $this->id);
         $stmt->execute();
-        
+
 
         $sql="DELETE FROM invite WHERE eventID=?";
 
@@ -55,8 +59,14 @@ class Kalender{
         $stmt->bindParam(':description', $this->description); 
         $stmt->bindParam(':eventID', $this->eventID);
 
-        $stmt->execute();
+        if($stmt->execute()){
+            return true;
+        }
+
+        printf("Error: %s. \n", $stmt->error);
+        return false;
     }
+    
 
     public function readEvent(){
         $sql='SELECT * FROM '.$this->table.'';
@@ -87,7 +97,7 @@ class Kalender{
         $stmt->bindParam(':eventID', $this->eventID);
         $stmt->execute();
 
-if (!empty()) {
+if (!empty($stmt)) {
     
         $sql = 'INSERT INTO invite SET eventID=:eventID, resiverID=:resiverID';
 
@@ -103,6 +113,37 @@ if (!empty()) {
 }
     }
 
+    /*$sql = 'SELECT accept FROM invite WHERE eventID=:eventID AND resiverID=:resiverID';
+    $stmt = $this->conn->prepare($sql);
+        $this->eventID = htmlspecialchars(strip_tags($this->eventID));
+        $this->resiverID = htmlspecialchars(strip_tags($this->resiverID));
+
+        $stmt->bindParam(':resiverID', $this->resiverID);
+        $stmt->bindParam(':eventID', $this->eventID);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $Mod=$row['accept'];
+        switch ($Mod) {
+            case 0:
+                $ac=1
+                break;
+            
+            case 1:
+                $ac=0
+                break;
+        }
+        $sql = "UPDATE invite SET accept='$ac' WHERE eventID=:eventID AND resiverID=:resiverID";
+
+        $stmt = $this->conn->prepare($sql);
+        $this->eventID = htmlspecialchars(strip_tags($this->eventID));
+        $this->resiverID = htmlspecialchars(strip_tags($this->resiverID));
+
+        $stmt->bindParam(':resiverID', $this->resiverID);
+        $stmt->bindParam(':eventID', $this->eventID);
+        $stmt->execute();*/
+        
+
     public function acceptInvite(){
         $sql = 'UPDATE invite SET accept=1 WHERE eventID=:eventID AND resiverID=:resiverID';
 
@@ -112,8 +153,32 @@ if (!empty()) {
 
         $stmt->bindParam(':resiverID', $this->resiverID);
         $stmt->bindParam(':eventID', $this->eventID);
-        $stmt->execute();
+        if($stmt->execute()){
+            return true;
+        }
+
+        printf("Error: %s. \n", $stmt->error);
+        return false;
     }
+    public function declineInvite(){
+        $sql = 'UPDATE invite SET accept=0 WHERE eventID=:eventID AND resiverID=:resiverID';
+
+        $stmt = $this->conn->prepare($sql);
+        $this->eventID = htmlspecialchars(strip_tags($this->eventID));
+        $this->resiverID = htmlspecialchars(strip_tags($this->resiverID));
+
+        $stmt->bindParam(':resiverID', $this->resiverID);
+        $stmt->bindParam(':eventID', $this->eventID);
+        
+
+        if($stmt->execute()){
+            return true;
+        }
+
+        printf("Error: %s. \n", $stmt->error);
+        return false;
+    }
+    
 
     public function deleteInvite(){
         $sql = 'DELETE FROM invite WHERE eventID=:eventID AND resiverID=:resiverID';
@@ -124,8 +189,16 @@ if (!empty()) {
 
         $stmt->bindParam(':resiverID', $this->resiverID);
         $stmt->bindParam(':eventID', $this->eventID);
-        $stmt->execute();
+       
+
+        if($stmt->execute()){
+            return true;
+        }
+
+        printf("Error: %s. \n", $stmt->error);
+        return false;
     }
+    
 
     public function deleteALL_invite(){
         $sql="DELETE FROM invite WHERE eventID=?";
