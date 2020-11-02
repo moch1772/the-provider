@@ -87,18 +87,7 @@ class Kalender{
 
     }
     public function invite(){
-        $sql ='SELECT * FROM invite WHERE eventID=:eventID AND resiverID=:resiverID';
-
-        $stmt = $this->conn->prepare($sql);
-        $this->eventID = htmlspecialchars(strip_tags($this->eventID));
-        $this->resiverID = htmlspecialchars(strip_tags($this->resiverID));
-
-        $stmt->bindParam(':resiverID', $this->resiverID);
-        $stmt->bindParam(':eventID', $this->eventID);
-        $stmt->execute();
-
-if (!empty($stmt)) {
-    
+        
         $sql = 'INSERT INTO invite SET eventID=:eventID, resiverID=:resiverID';
 
         $stmt = $this->conn->prepare($sql);
@@ -107,10 +96,13 @@ if (!empty($stmt)) {
 
         $stmt->bindParam(':resiverID', $this->resiverID);
         $stmt->bindParam(':eventID', $this->eventID);
-        $stmt->execute();
-}else{
-        echo 'is alredy invited';
-}
+        if($stmt->execute()){
+            return true;
+        }
+
+        printf("Error: %s. \n", $stmt->error);
+        return false;
+
     }
 
     /*$sql = 'SELECT accept FROM invite WHERE eventID=:eventID AND resiverID=:resiverID';
