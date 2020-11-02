@@ -1,12 +1,11 @@
-<?php 
-    include 'dbsetup.php';
-    session_start();
-?>
 <?php
 /*if(!isset($_POST['submitpost'])) {
     $_POST['submitpost']="";
 }*/
 //$SHOW=$_POST['submitpost'];
+
+    include "dbsetup.php";
+    session_start();
 
     if(isset($_POST['submitpost'])){
         $bloggtitle = $_POST['bloggtitle'];
@@ -19,11 +18,7 @@
         if(!empty($bloggtitle) && !empty($bloggtext)){
 
                 $stmt = $conn->prepare("INSERT INTO post (title, text, showComments) VALUES (?, ?, ?)");
-                $stmt->bind_param("ssi", $bloggtitle_p, $bloggtext_p, $showComments_p);
-        
-                $bloggtitle_p = $bloggtitle;
-                $bloggtext_p = $bloggtext;
-                $showComments_p = $showComments;
+                $stmt->bind_param("ssi", $bloggtitle, $bloggtext, $showComments);
         
                 $stmt->execute();
         
@@ -71,7 +66,7 @@ function remove($remove) {
     $_SESSION['array']=serialize($array);
 }
 
-function deleteTag($deleteTag) {
+function deleteTag($deleteTag, $postID, $conn) {
     
     mysqli_query($conn, "DELETE FROM tag where postID='$postID'");
 }
