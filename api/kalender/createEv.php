@@ -14,7 +14,7 @@ $db = $database->connect();
 
 $ev = new Kalender($db);
 
-$data = json_decode(file_get_contents("php://input"));
+$data = json_decode(file_get_contents('php://input'));
 
 $ev->userID = $data->userID;
 $ev->description = $data->description;
@@ -22,7 +22,7 @@ $ev->dateTime = $data->dateTime;
 
 
 
-echo 'ses';
+echo $data;
 
 $ev->createEvent();
 
