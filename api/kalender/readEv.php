@@ -1,14 +1,14 @@
 <?php
  
  include_once '../../config/db.php';
- include_once '../../models/Moderator.php';
+ include_once '../../models/Kalender.php';
  
  $database = new Database();
  $db = $database->connect();
  
- $his = new Moderator($db);
+ $his = new Kalender($db);
  
- $result = $his->modHistory();
+ $result = $his->readEvent();
  $rowCount = $result->rowCount();
 
  if($rowCount > 0){
@@ -19,12 +19,10 @@
         extract($row);
 
         $his_item = array(
-            'postID' => $postID,
-            'commentID' => $commentID,
-            'text' => html_entity_decode($text),
-            'dateTime' => $dateTime,
+            'eventID' => $eventID,
+            'description' => $description,
             'userID' => $userID,
-            'modID' => $modID
+            'dateTime' => $dateTime
         );
 
         array_push($his_arr['data'], $his_item);
