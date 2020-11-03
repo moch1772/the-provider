@@ -7,7 +7,6 @@
     $arr=array("postID"=> 5, "title"=> $title,"text"=> $text);
     echo json_encode($arr);
     $arry=json_encode($arr);
-    //$post_URL = file_get_contents('');
     
     $ch=curl_init();
     
