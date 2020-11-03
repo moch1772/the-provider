@@ -111,6 +111,24 @@ class Post{
 
     public function Delete(){
         //Query
+        $sql = 'SELECT * FROM '.$this->table.' WHERE postID=?';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(1, $this->postID);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $postID=$row['postID'];
+        $userID=$row['userID'];
+        $dateTime=$row['dateTime'];
+        $showComments=$row['showComments'];
+        $text=$row['text'];
+        $title=$row['title'];
+
+        $sql = "INSERT INTO blogghistory SET postID='$postID',userID='$userID',dateTime='$dateTime',showComments='$showComments',text='$text',title='$title'";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        
         $sql ='DELETE FROM '.$this->table .' WHERE postID= ?';
 
         //Prepare
