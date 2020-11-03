@@ -22,7 +22,7 @@ $ev->dateTime = $data->dateTime;
 
 
 
-echo $data;
+//echo $data;
 
 $ev->createEvent();
 
