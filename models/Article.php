@@ -107,6 +107,24 @@ class Article{
     }
 
     public function delete() {
+        $sql = 'SELECT * FROM '.$this->table.' WHERE wikiID=?';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(1, $this->postID);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $postID=$row['postID'];
+        $userID=$row['userID'];
+        $dateTime=$row['dateTime'];
+        $showComments=$row['showComments'];
+        $text=$row['text'];
+        $title=$row['title'];
+
+        $sql = "INSERT INTO wikihistory SET wikiID='$postID',userID='$userID',date='$dateTime',version='$showComment',text='$text',title='$title'";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
         $sql = 'DELETE FROM ' . $this->table . ' WHERE wikiID = ?';
 
         $stmt = $this->conn->prepare($sql);

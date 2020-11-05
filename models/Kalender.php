@@ -15,7 +15,7 @@ class Kalender{
     }
 
     public function createEvent(){
-        $sql ="INSERT INTO event SET userID=:userID, description=:description, dateTime=:dateTime";
+        $sql ='INSERT INTO event SET userID=:userID, description=:description, dateTime=:dateTime';
 
         $stmt = $this->conn->prepare($sql);
         $this->userID = htmlspecialchars(strip_tags($this->userID));

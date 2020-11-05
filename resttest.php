@@ -1,24 +1,30 @@
 <?php
-$resorce= array(
-  'userID' => 1,
-  'description' => 'nej',
-  'dateTime' => ''
-);
-$rect= 'hur går det min venn';
-$dette= date("Y-m-d h:i:sa");
 
 
-$curl=curl_init();
 
+//$title=$_POST['title'];
+    //$text=$_POST['text'];
+    $description='nomoresos';
+    $dateTime=date("Y-m-d h:i:sa");
+    $arr=array("userID"=> 4, "description"=> $description,"dateTime"=> $dateTime);
+    echo json_encode($arr);
+    $arry=json_encode($arr);
+    //$post_URL = file_get_contents('');
+    
+    $ch=curl_init();
+    
+    $url="http://localhost:8080/t4/bull/kalender/the-provider/api/kalender/createEv.php";
 
-curl_setopt($curl, CURLOPT_URL, "http://localhost:8080/t4/bull/kalender/the-provider/api/kalender/createEv.php");
-curl_setopt($curl, CURLOPT_POSTFIELDS, $resorce);
-curl_setopt($curl,CURLOPT_RETURNTRANSFER, true);
-$result=curl_exec($curl);
+    curl_setopt($ch, CURLOPT_URL, $url);
 
- //$re=json_decode($result);
-curl_close($curl);
-echo $result;
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+    curl_setopt($ch, CURLOPT_POST, 1);
+
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $arry);
+
+    $output = curl_exec($ch);
+echo $output;
 
 
     
