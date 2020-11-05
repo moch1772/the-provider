@@ -21,7 +21,9 @@ $post_arr = array(
     'text' => html_entity_decode($post->text),
     'dateTime' => $post->dateTime,
     'userID' => $post->userID,
-    'showComments' => $post->showComments
+    'showComments' => $post->showComments,
+    'bloggID' => $post->bloggID,
+    'hidden' => $post->hidden
 );
 
 print_r(json_encode($post_arr));

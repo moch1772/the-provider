@@ -11,7 +11,7 @@ $db = $database->connect();
 
 $post = new Post($db);
 
-$result = $post->read();
+$result = $post->read_public();
 $rowCount = $result->rowCount();
 
 if($rowCount > 0){

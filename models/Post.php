@@ -10,13 +10,15 @@ class Post{
     public $showComments;
     public $text;
     public $title;
+    public $bloggID;
+    public $hidden;
 
     public function __construct($db) {
         $this->conn = $db;
     }
 
     public function read(){
-        $sql = 'SELECT p.postID, p.userID, p.dateTime, p.showComments, p.text, p.title
+        $sql = 'SELECT p.postID, p.userID, p.dateTime, p.showComments, p.text, p.title, p.bloggID, p.hidden
         FROM '.$this->table. ' p';
     
         $stmt = $this->conn->prepare($sql);
@@ -25,7 +27,7 @@ class Post{
     }
 
     public function read_single() {
-        $sql = 'SELECT p.postID, p.userID, p.dateTime, p.showComments, p.text, p.title
+        $sql = 'SELECT p.postID, p.userID, p.dateTime, p.showComments, p.text, p.title, p.bloggID, p.hidden
         FROM '.$this->table. ' p
         WHERE p.postID = ?
         LIMIT 0,1';
@@ -42,12 +44,22 @@ class Post{
         $this->showComments = $row['showComments'];
         $this->text = $row['text'];
         $this->title = $row['title'];
+        $this->bloggID = $row['bloggID'];
+        $this->hidden = $row['hidden'];
         
         return $stmt;
     }
 
+    public function read_public() {
+        $sql = 'SELECT p.postID, p.userID, p.dateTime, p.showComments, p.text, p.title, p.bloggID, p.hidden
+        FROM '.$this->table. ' p
+        WHERE p.hidden = 0';
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt;
+    }
 
 }
-
 
 ?>
