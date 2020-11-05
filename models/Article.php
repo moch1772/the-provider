@@ -109,7 +109,7 @@ class Article{
     public function delete() {
         $sql = 'SELECT * FROM '.$this->table.' WHERE wikiID=?';
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(1, $this->postID);
+        $stmt->bindParam(1, $this->wikiID);
         $stmt->execute();
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);

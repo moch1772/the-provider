@@ -76,6 +76,24 @@ class Comment{
     }
 
     public function remove(){
+        $sql = 'SELECT * FROM '.$this->table.' WHERE commentID=?';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(1, $this->commentID);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $postID=$row['postID'];
+        $userID=$row['userID'];
+        $dateTime=$row['dateTime'];
+        $showComments=$row['show'];
+        $text=$row['commentID'];
+        $title=$row['text'];
+
+        $sql = "INSERT INTO comenthistory SET postID='$postID',userID='$userID',dateTime='$dateTime',show='$showComment',text='$title',commentID='$title'";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
         $sql = 'DELETE FROM '.$this->table.'
         WHERE commentID = ?';
 

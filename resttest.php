@@ -4,16 +4,17 @@
 
 //$title=$_POST['title'];
     //$text=$_POST['text'];
-    $description='nomoresos';
+    $pas='hur';
+    $description='ner';
     $dateTime=date("Y-m-d h:i:sa");
-    $arr=array("userID"=> 4, "description"=> $description,"dateTime"=> $dateTime);
+    $arr=array("password"=> $pas, "name"=> $description);
     echo json_encode($arr);
     $arry=json_encode($arr);
     //$post_URL = file_get_contents('');
     
     $ch=curl_init();
     
-    $url="http://localhost:8080/t4/bull/kalender/the-provider/api/kalender/createEv.php";
+    $url="http://localhost:8080/t4/bull/kalender/the-provider/api/moderator/logga.php";
 
     curl_setopt($ch, CURLOPT_URL, $url);
 
