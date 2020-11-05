@@ -54,6 +54,7 @@ class Post{
         $sql = 'SELECT p.postID, p.userID, p.dateTime, p.showComments, p.text, p.title, p.bloggID, p.hidden
         FROM '.$this->table. ' p
         WHERE p.hidden = 0';
+    }
 
     public function create(){
         //query
@@ -69,11 +70,15 @@ class Post{
         $this->showComments = htmlspecialchars(strip_tags($this->showComments));
         $this->text = htmlspecialchars(strip_tags($this->text));
         $this->title = htmlspecialchars(strip_tags($this->title));
+        $this->bloggID = htmlspecialchars(strip_tags($this->bloggID));
+        $this->hidden = htmlspecialchars(strip_tags($this->hidden));
         //Sätt/bind data
         $stmt->bindParam(':userID', $this->userID);
         $stmt->bindParam(':showComments', $this->showComments);
         $stmt->bindParam(':text', $this->text);
         $stmt->bindParam(':title', $this->title);
+        $stmt->bindParam(':bloggID', $this->bloggID);
+        $stmt->bindParam(':hidden', $this->hidden);
 
         //execute
         if($stmt->execute()){
@@ -92,6 +97,8 @@ class Post{
             showComments= :showComments,
             text = :text,
             title = :title
+            title = :title,
+            hidden = :hidden
             WHERE 
             postID = :postID';
         
@@ -108,6 +115,7 @@ class Post{
         $stmt->bindParam(':showComments', $this->showComments);
         $stmt->bindParam(':text', $this->text);
         $stmt->bindParam(':title', $this->title);
+        $stmt->bindParam(':hidden', $this->hidden);
 
         if($stmt->execute()){
             return true;
@@ -131,8 +139,11 @@ class Post{
         $showComments=$row['showComments'];
         $text=$row['text'];
         $title=$row['title'];
+        $bloggID=$row['bloggID'];
+        $hidden=$row['hidden'];
 
         $sql = "INSERT INTO blogghistory SET postID='$postID',userID='$userID',dateTime='$dateTime',showComments='$showComments',text='$text',title='$title'";
+        $sql = "INSERT INTO blogghistory SET postID='$postID',userID='$userID',dateTime='$dateTime',showComments='$showComments',text='$text',title='$title',bloggID='$bloggID',hidden='$hidden'";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
