@@ -25,6 +25,16 @@ class Wikireport{
         return $stmt;
     }
 
+    public function readUnresolved(){
+        $sql = 'SELECT p.reportID, p.description, p.userID, p.email, p.date, p.wikiID, p.resolved
+        FROM '.$this->table. ' p 
+        WHERE p.resolved=0';
+    
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt;
+    }
+
     public function read_single() {
         $sql = 'SELECT p.reportID, p.description, p.userID, p.email, p.date, p.wikiID, p.resolved
         FROM '.$this->table. ' p
@@ -73,8 +83,16 @@ class Wikireport{
 
         return false;
     }
+    public function resolvedToTrue($conn, $reportId){
+        if(isset($reportId))
+    {
+        $query=$conn->prepare("update wikireport set resolved=1 where reportID=?");
+      if($query->execute([$reportId])){      
+      return TRUE;}        
+  }
+    }
 
-    //Update Article
+    //Update user
     public function update(){
         //Query
         $sql='UPDATE '.$this->table.'

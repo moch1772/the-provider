@@ -11,7 +11,7 @@ $db = $database->connect();
 
 $wikireport = new Wikireport($db);
 
-$result = $wikireport->read();
+$result = $wikireport->readUnresolved();
 $rowCount = $result->rowCount();
 
 if($rowCount > 0){
