@@ -1,89 +1,125 @@
 <?php
-    require 'bloggpost.php';
-?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="" method="POST">
-        <input type="text" name="bloggtitle" placeholder="Title"
-        <?php
-            if(isset($_SESSION['title'])) {
-                echo "value=".$_SESSION['title'];
-            }
-        ?>
-        ></input><br></br>
-        <textarea name="bloggtext" rows="20" cols="50" placeholder="Content"><?php if(isset($_SESSION['text'])) {echo $_SESSION['text'];}?></textarea>
-        <input type="submit" name="submitpost" value="Post"><br></br>
-        <label for="comment">Tillåt kommentarer</label>
-        <input type="hidden" name="showComments" value="0"></input>
-        <input type="checkbox" name="showComments" value="1"></input>
-        <input type="text" name="tag" placeholder="Add tag"></input>
-        <input type="submit" name="submitpost" value="tag"></input>
-        <!--<input type="submit" name="add-tag" value="Add tag"></input>-->
-    </form>
+class Blogg{
+    private $conn;
+    private $table = 'blogg';
 
-    <table style= "width: 20%;" border="2";>
-         <tr>
-            <td>Tag</td>
-            <td>Remove</td>
-        </tr>
+    public $bloggID;
+    public $name;
+    public $userID;
+    public $hide;
 
-    <?php if(isset($_SESSION['array'])) {
-        if(isset($_POST['submit2'])) {
-            remove($_POST['submit2']);
-        }
-        $tags = unserialize($_SESSION['array']);
-        foreach ($tags as $t) { 
-    ?>
-            <tr>
-                <td><?php echo $t ?></td>
-                <?php
-                    echo'<td><form method="POST"><input type="submit" name="submit2" value='.$t.'></form></td>';
-                ?>
-            </tr>
-    <?php 
-        }
+    public function __construct($db) {
+        $this->conn = $db;
     }
-    ?>
-    </table>
 
-<table style="position: fixed; margin-left: 50%; margin-top: -30%;" border="2">
-  <tr>
-    <td>postID</td>
-    <td>anvID</td>
-    <td>Title</td>
-    <td>Text</td>
-    <td>show Comment</td>
-    <td>Edit</td>
-    <td>Delete</td>
-  </tr>
+    public function read(){
+        $sql = 'SELECT p.bloggID, p.name, p.userID, p.hide
+        FROM '.$this->table. ' p';
+    
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt;
+    }
 
-<?php
+    public function read_single() {
+        $sql = 'SELECT p.bloggID, p.name, p.userID, p.hide
+        FROM '.$this->table. ' p
+        WHERE p.bloggID = ?
+        LIMIT 0,1';
 
-include "dbsetup.php";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(1, $this->bloggID);
+        $stmt->execute();
 
-$result = mysqli_query($conn, "SELECT * FROM post");
-while($row = mysqli_fetch_array($result))
-{
-?>
-    <tr>
-        <td><?php echo $row['postID']; ?></td>
-        <td><?php echo $row['userID']; ?></td>
-        <td><?php echo $row['title']; ?></td>
-        <td><?php echo $row['text']; ?></td>
-        <td><?php echo $row['showComments']; ?></td>
-        <td><a href="editpost.php?postID=<?php echo $row['postID']; ?>">Edit</a></td>   
-        <td><a href="deletepost.php?postID=<?php echo $row['postID']; ?>">Delete</a></td>
-    </tr>	
-<?php
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->bloggID = $row['bloggID'];
+        $this->name = $row['name'];
+        $this->userID = $row['userID'];
+        $this->hide = $row['hide'];
+        
+        return $stmt;
+    }
+    
+    public function create() {
+        $sql = 'INSERT INTO ' . $this->table . ' SET name = :name, userID = :userID, hide = :hide';
+
+        $stmt = $this->conn->prepare($sql);
+
+        $this->name = htmlspecialchars($this->name);
+        $this->userID = htmlspecialchars(strip_tags($this->userID));
+        $this->hide = htmlspecialchars(strip_tags($this->hide));
+
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':userID', $this->userID);
+        $stmt->bindParam(':hide', $this->hide);
+
+        if($stmt->execute()) {
+            return true;
         }
+
+        printf("Error: %s /n", $stmt->error);
+
+        return false;
+    }
+    
+    //Update Blogg
+    public function update(){
+        //Query
+        $sql='UPDATE '.$this->table.'
+        SET
+            name = :name,
+            userID = :userID,
+            hide = :hide
+            WHERE 
+            bloggID = :bloggID';
+        
+        //Prepare
+        $stmt = $this->conn->prepare($sql);
+
+        $this->bloggID = htmlspecialchars(strip_tags($this->bloggID));
+        $this->name = htmlspecialchars($this->name);
+        $this->userID = htmlspecialchars(strip_tags($this->userID));
+        $this->hide = htmlspecialchars(strip_tags($this->hide));
+
+        //sätt data/Bind data
+        $stmt->bindParam(':bloggID', $this->bloggID);
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':userID', $this->userID);
+        $stmt->bindParam(':hide', $this->hide);
+
+        if($stmt->execute()){
+            return true;
+        }
+
+        printf("Error: %s. \n", $stmt->error);
+        return false;
+    }
+
+    public function delete() {
+        $sql = 'DELETE FROM ' . $this->table . ' WHERE bloggID = ?';
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(1, $this->bloggID);
+        
+        if($stmt->execute()) {
+            return true;
+        }
+
+        printf("Error: %s /n", $stmt->error);
+
+        return false;
+    }
+    public function read_public() {
+        $sql = 'SELECT p.bloggID, p.name, p.userID, p.hide
+        FROM '.$this->table. ' p
+        WHERE p.hide = 0';
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt;
+    }
+}
 ?>
-</table>
-</body>
-</html>
