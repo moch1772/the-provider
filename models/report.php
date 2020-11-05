@@ -18,6 +18,22 @@ $json=json_encode($array);
     }
   return $json;  
 }
+public function fetchUnresolved($conn)
+{
+$query="select * from report where resolved=0";
+    if($result=$conn->query($query))
+    {
+$array=array();
+while($row=$result->fetch(PDO::FETCH_ASSOC))
+{
+  foreach($row as $i)
+  $array[]=$i;
+}
+$json=json_encode($array);
+      
+    }
+  return $json;  
+}
 public function insertReport($conn, $postId, $email, $description)
 {
     if(isset($email)&&isset($description)&&isset($postId))
@@ -48,8 +64,8 @@ public function insertReportStatus($conn, $reportId , $status)
     if(isset($reportId))
     {
         $query=$conn->prepare("update report set resolved=? where reportID=?");
-      if($query->execute([$reportId, $status]))      
-    return TRUE;        
+      if($query->execute([$status,$reportId])){      
+      return TRUE;}        
   }
 }
 public function getReport($conn, $reportId)
