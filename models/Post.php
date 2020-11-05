@@ -141,6 +141,7 @@ class Post{
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(1, $this->postID);
         $stmt->execute();
+        return $stmt;
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         $postID=$row['postID'];
