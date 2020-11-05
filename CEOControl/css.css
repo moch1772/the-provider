@@ -1,0 +1,28 @@
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+table{
+    width:98%;
+}
+th,td{
+    width:10vw;
+}
+th{
+    background-color:lightgrey;
+}
+td{
+    position: relative;
+}
+textarea{
+    width:20vw;
+    height:30vh;
+    resize: none;
+}
+.maxHeightTd{
+    position: absolute;
+    height:10vh;
+    width:10vw;
+    overflow: hidden;
+    background-color:red;
+}

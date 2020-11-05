@@ -3,7 +3,7 @@
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-include_once '../../config/testdbconn.php';
+include_once '../../config/db.php';
 include_once '../../models/Post.php';
 
 $database = new Database();
@@ -27,5 +27,4 @@ $post_arr = array(
 );
 
 print_r(json_encode($post_arr));
-
 ?>
