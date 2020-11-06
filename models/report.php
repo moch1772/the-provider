@@ -59,13 +59,15 @@ public function insertReportComment($conn, $commentId, $email, $description)
      }
     }  
 }
-public function insertReportStatus($conn, $reportId , $status)
+public function insertReportStatus($conn, $reportId, $status)
 {
     if(isset($reportId))
     {
         $query=$conn->prepare("update report set resolved=? where reportID=?");
-      if($query->execute([$status,$reportId])){      
-      return TRUE;}        
+
+      if($query->execute([$reportId, $status]))      
+    return TRUE;        
+
   }
 }
 public function getReport($conn, $reportId)
