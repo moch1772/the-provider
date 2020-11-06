@@ -42,13 +42,7 @@ class Article{
         $this->version = $row['version'];
         $this->text = $row['text'];
         $this->title = $row['title'];
-
-        $sql='SELECT title FROM wikiarticle WHERE NOT wikiID=?';
-        $stmt->bindParam(1, $this->wikiID);
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
-
-        
+ 
        
         return $stmt;
     }
