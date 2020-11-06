@@ -14,10 +14,11 @@ class Moderator{
 
     public function deleteBMod(){
      
-          $sql="UPDATE moderator SET bloggID=0 WHERE userID=?";
+          $sql="UPDATE moderator SET bloggID=0 WHERE userID=:userID AND bloggID=:bloggID";
 
           $stmt = $this->conn->prepare($sql);
-          $stmt->bindParam(1, $this->id);
+          $stmt->bindParam(':userID', $this->userID);
+          $stmt->bindParam(':bloggID', $this->bloggID);
           $stmt->execute();
 
           
@@ -27,41 +28,13 @@ class Moderator{
         $stmt->execute();
     }
     public function createBMod(){
-        $sql = "SELECT bloggID FROM moderator WHERE userID=?";
-      
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(1, $this->id);
-        $stmt->execute();
-         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $Mod=$row['bloggID'];
         
-        if (isset($Mod)){
-            
-           
-switch ($Mod) {
-    case '0':
-        $sql="UPDATE moderator SET bloggID= WHERE userID=?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(1, $this->id);
-        $stmt->execute();
-        break;
-    
-    case '1':
-        echo'är redan inloggad';
-        break;
-}
-        
-        }else{
-
-       $sql="INSERT INTO moderator(userID,bloggID) VALUES(?,1)";
+       $sql="INSERT INTO moderator(userID,bloggID) VALUES(:userID,:bloggID)";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(1, $this->id);
+        $stmt->bindParam(':userID', $this->userID);
+        $stmt->bindParam(':bloggID', $this->bloggID);
         $stmt->execute();
-        }
-
-        
         
     }
       
@@ -79,10 +52,11 @@ switch ($Mod) {
 
     public function deleteWMod(){
      
-        $sql="UPDATE moderator SET wikiID=0 WHERE userID=?";
+        $sql="UPDATE moderator SET wikiID=0 WHERE userID=:userID AND wikiID=:wikiID";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(1, $this->id);
+        $stmt->bindParam(':userID', $this->userID);
+        $stmt->bindParam(':wikiID', $this->wikiID);
         $stmt->execute();
 
         
@@ -93,39 +67,15 @@ switch ($Mod) {
   }
 
   public function createWMod(){
-      $sql = "SELECT wikiID FROM moderator WHERE userID=?";
-    
-      $stmt = $this->conn->prepare($sql);
-      $stmt->bindParam(1, $this->id);
-      $stmt->execute();
+     
 
- $row = $stmt->fetch(PDO::FETCH_ASSOC);
+     $sql="INSERT INTO moderator(userID,wikiID) VALUES(:userID,:wikiID)";
 
-      $Mod=$row['wikiID'];
-      if (!empty($Mod)){
-          
-         
-switch ($Mod) {
-  case '0':
-      $sql="UPDATE moderator SET wikiID=1 WHERE userID=?";
       $stmt = $this->conn->prepare($sql);
-      $stmt->bindParam(1, $this->id);
+      $stmt->bindParam(':userID', $this->userID);
+      $stmt->bindParam(':wikiID', $this->wikiID);
       $stmt->execute();
-      break;
-  
-  case '1':
-      echo'är redan inloggad';
-      break;
-}
       
-      }else{
-
-     $sql="INSERT INTO moderator(userID,wikiID) VALUES(?,1)";
-
-      $stmt = $this->conn->prepare($sql);
-      $stmt->bindParam(1, $this->id);
-      $stmt->execute();
-      }
 
       
       
@@ -155,26 +105,64 @@ switch ($Mod) {
                 return $bloggID;
                 
             }
-            $sql="SELECT bloggID,wikiID FROM moderator WHERE userID='$ID'";
+            $sql="SELECT bloggID FROM moderator WHERE userID='$ID'";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
 
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $bri = $row['bloggID'];
-            $wiki = wikiID['wikiID'];
+
             if (!empty($bri)) {
                 return $bloggID;
             }
-            if (!empty($wiki)) {
-                return $wiki;
-            }
+            
             return $name;
             }else {
                 echo 'no';
             }
+            
 
         }
+     public function loginwiki(){
+                $sql = 'SELECT * FROM user WHERE name=:name AND password=:password';
+                $stmt = $this->conn->prepare($sql);
+          
+                  $this->name = htmlspecialchars(strip_tags($this->name));
+                  $this->password = htmlspecialchars(strip_tags($this->password));
+          
+                  $stmt->bindParam(':name', $this->name);
+                  $stmt->bindParam(':password', $this->password);
+                  $stmt->execute();
+          
+                  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                  $ID = $row['ID'];
+                  $name = $row['name'];
+                  if(!empty($ID)){
+                      $sql="SELECT bloggID FROM blogg WHERE userID='$ID'";
+                      $stmt = $this->conn->prepare($sql);
+                      $stmt->execute();
+          
+                      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                      $bloggID = $row['bloggID'];
+                      if (!empty($bloggID)) {
+                          return $bloggID;
+                          
+                      }
+                      $sql="SELECT wikiID FROM moderator WHERE userID='$ID'";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
 
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $wiki = $row['wikiID'];
+
+                if (!empty($wiki)) {
+                    return $wiki;
+                }
+            }else {
+                echo 'no';
+            }
+                
+            }
 
   
 }
