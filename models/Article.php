@@ -42,7 +42,14 @@ class Article{
         $this->version = $row['version'];
         $this->text = $row['text'];
         $this->title = $row['title'];
+
+        $sql='SELECT title FROM wikiarticle WHERE NOT wikiID=?';
+        $stmt->bindParam(1, $this->wikiID);
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
         
+       
         return $stmt;
     }
     
@@ -113,6 +120,7 @@ class Article{
         $stmt->execute();
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
         $postID=$row['postID'];
         $userID=$row['userID'];
         $dateTime=$row['dateTime'];
@@ -138,6 +146,43 @@ class Article{
         printf("Error: %s /n", $stmt->error);
 
         return false;
+    }
+    public function titleLink(){
+        $sql='SELECT text FROM wikiarticle WHERE wikiID=?';
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(1, $this->wikiID);
+        $stmt->execute();
+
+        $rw = $stmt->fetch(PDO::FETCH_ASSOC);
+        $tet=$rw['text'];
+
+        $sql='SELECT title,wikiID FROM wikiarticle WHERE NOT wikiID=?';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(1, $this->wikiID);
+        $stmt->execute();
+
+
+       $nog=array();
+       $deb=array();
+       while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+           
+            $title=$row['title'];
+            $ID=$row['wikiID'];
+            array_push($nog,$title);
+            
+            $url='&lt;a href=&quot;http://localhost:8080/t4/bull/kalender/the-provider/api/article/read_single.php?wikiID='.$ID.'&quot;&gt;'.$title.'&lt;/a&gt;';
+            array_push($deb,$url);
+       }
+       
+       $newstring = str_replace($nog,$deb, $tet);
+       
+       return html_entity_decode($newstring);
+       
+
+        
+        
+
     }
 }
 ?>
