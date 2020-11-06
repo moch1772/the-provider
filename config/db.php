@@ -3,7 +3,7 @@
 class Database {
 
     private $host = 'localhost';
-    private $db = 'provider';
+    private $db = 'fedora';
     private $username = 'root';
     private $password = '';
     private $conn; 

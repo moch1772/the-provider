@@ -1,25 +1,25 @@
 <?php
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
+    
+    include_once 'config/db.php';
+    include_once 'includes/auth.php';
+    
+    $database = new Database();
+    $db = $database->connect();
 
-    if (!isset($_SERVER['PHP_AUTH_USER'])) {
-        header ('WWW-Authenticate: Basic realm=\"Private Area\"');
-        header ("HTTP/1.0 401 Unauthiruzed");
-        print "Sorry, you need proper credentials";
-        exit;
+    $data = json_decode(file_get_contents("php://input"));
 
-    } else {
-        $curl = curl_init();
+    $user = array(
+        "ID" => $data->ID,
+        "name" => $data->name,
+        "lastname" => $data->lastname,
+        "password" => $data->password
+    );
 
-        curl_setopt($curl, CURLOPT_URL, "http://sko.te4-ntig.se/verify/verify.php?user=".$_SERVER['PHP_AUTH_USER']."&password=".$_SERVER['PHP_AUTH_PW']);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    $auth = new Authenticator($db);
 
-        $output = curl_exec($curl);
+    $check = $auth->authenticateMod($user);
 
-        curl_close($curl);
-
-        $output = (json_decode($output, true));
-        
-        echo $output['hash'];
-    }
+    echo $check;
 ?>
