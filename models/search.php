@@ -11,6 +11,8 @@
         public $showComments;
         public $text;
         public $title;
+        public $version;
+        public $data;
         public $search;
 
         public function __construct($db) {
