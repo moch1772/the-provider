@@ -16,13 +16,16 @@ $ev = new Kalender($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
-$ev->eventrID = $data->userID;
-$ev->resiverID = $data->resiverID;
+$ev->eventID = $data->eventID;
+$ev->receiverID = $data->receiverID;
 
-
-echo 'ses';
-
-$ev->declineInvite();
+if($ev->declineInvite()){
+    echo json_encode(array('message' => 'Invite declined'));
+}else{
+    echo json_encode(
+        array('message'=>'Invite Not declined')
+    );
+}
 
 
 ?>

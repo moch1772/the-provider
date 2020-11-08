@@ -21,9 +21,16 @@ $data = json_decode(file_get_contents("php://input"));
 $new->userID = $data->userID;
 $new->wikiID = $data->wikiID;
 
- $new->deleteWMod();
  
-echo 'k';
+ 
+ if($new->deleteWMod()){
+    echo json_encode(array('message' => 'Moderator deleted'));
+}else{
+    echo json_encode(
+        array('message'=>'Moderator Not deleted')
+    );
+}
+
 
 
 ?>

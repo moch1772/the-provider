@@ -20,9 +20,14 @@ $ev->password = $data->password;
 $ev->name = $data->name;
 
 
-echo 'ses';
+if($post->login()){
+    echo json_encode(array('message' => 'Post Created'));
+}else{
+    echo json_encode(
+        array('message'=>'Post Not created')
+    );
+}
 
-$ev->login();
 
 
 ?>

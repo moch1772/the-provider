@@ -23,7 +23,13 @@ $new->wikiID = $data->wikiID;
 $new->location = $data->location;
 
 
- $new->insertImage();
  
-echo 'k';
+ 
+ if($new->insertImage()){
+    echo json_encode(array('message' => 'Image created'));
+}else{
+    echo json_encode(
+        array('message'=>'Image not created')
+    );
+}
 ?>

@@ -15,9 +15,15 @@ $new = new image($db);
 
 
 $new->id = isset($_GET['imageID']) ? $_GET['imageID'] : die();
- $new->deleteIMG();
+
  
-echo 'k';
+ if($new->deleteIMG()){
+    echo json_encode(array('message' => 'Image deleted'));
+}else{
+    echo json_encode(
+        array('message'=>'Image Not deleted')
+    );
+}
 
 
 ?>

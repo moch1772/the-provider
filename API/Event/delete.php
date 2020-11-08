@@ -15,9 +15,15 @@ $new = new Kalender($db);
 
 
 $new->id = isset($_GET['eventID']) ? $_GET['eventID'] : die();
- $new->deleteEvent();
  
-echo 'k';
+ 
+ if($new->deleteEvent()){
+    echo json_encode(array('message' => 'Event deleted'));
+}else{
+    echo json_encode(
+        array('message'=>'Event Not deleted')
+    );
+}
 
 
 ?>

@@ -22,7 +22,15 @@ $new->userID = $data->userID;
 $new->wikiID = $data->wikiID;
 
 
- $new->createWMod();
+
+ if($new->createWMod()){
+    echo json_encode(array('message' => 'Moderator Created'));
+}else{
+    echo json_encode(
+        array('message'=>'Moderator Not created')
+    );
+}
+
  
 echo 'k';
 ?>

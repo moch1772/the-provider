@@ -8,7 +8,7 @@ class Kalender{
     public $description;
     public $dateTime;
     //resiverID is the userID of the user that resives the invite
-    public $resiverID;
+    public $receiverID;
 
     public function __construct($db) {
         $this->conn = $db;
@@ -30,7 +30,6 @@ class Kalender{
             return true;
         }
 
-        printf("Error: %s. \n", $stmt->error);
         return false;
     }
     
@@ -47,6 +46,13 @@ class Kalender{
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(1, $this->id);
         $stmt->execute();
+
+        if($stmt->execute()){
+            return true;
+        }
+
+        
+        return false;
     }
 
     public function updateEvent(){
@@ -63,7 +69,7 @@ class Kalender{
             return true;
         }
 
-        printf("Error: %s. \n", $stmt->error);
+      
         return false;
     }
     
@@ -81,26 +87,31 @@ class Kalender{
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(1, $this->id);
-        $stmt->execute();
-
-        return $stmt;
-
-    }
-    public function invite(){
-        
-        $sql = 'INSERT INTO invite SET eventID=:eventID, resiverID=:resiverID';
-
-        $stmt = $this->conn->prepare($sql);
-        $this->eventID = htmlspecialchars(strip_tags($this->eventID));
-        $this->resiverID = htmlspecialchars(strip_tags($this->resiverID));
-
-        $stmt->bindParam(':resiverID', $this->resiverID);
-        $stmt->bindParam(':eventID', $this->eventID);
+      
         if($stmt->execute()){
             return true;
         }
 
-        printf("Error: %s. \n", $stmt->error);
+        
+        return false;
+
+    }
+    public function invite(){
+        
+        $sql = 'INSERT INTO invite SET eventID=:eventID, receiverID=:receiverID';
+
+        $stmt = $this->conn->prepare($sql);
+        $this->eventID = htmlspecialchars(strip_tags($this->eventID));
+        $this->receiverID = htmlspecialchars(strip_tags($this->receiverID));
+
+        $stmt->bindParam(':eventID', $this->eventID);
+        $stmt->bindParam(':receiverID', $this->receiverID);
+        
+        if($stmt->execute()){
+            return true;
+        }
+
+       
         return false;
 
     }
@@ -137,29 +148,29 @@ class Kalender{
         
 
     public function acceptInvite(){
-        $sql = 'UPDATE invite SET accept=1 WHERE eventID=:eventID AND resiverID=:resiverID';
+        $sql = 'UPDATE invite SET accept=1 WHERE eventID=:eventID AND receiverID=:receiverID';
 
         $stmt = $this->conn->prepare($sql);
         $this->eventID = htmlspecialchars(strip_tags($this->eventID));
-        $this->resiverID = htmlspecialchars(strip_tags($this->resiverID));
+        $this->receiverID = htmlspecialchars(strip_tags($this->receiverID));
 
-        $stmt->bindParam(':resiverID', $this->resiverID);
+        $stmt->bindParam(':receiverID', $this->receiverID);
         $stmt->bindParam(':eventID', $this->eventID);
         if($stmt->execute()){
             return true;
         }
 
-        printf("Error: %s. \n", $stmt->error);
+        
         return false;
     }
     public function declineInvite(){
-        $sql = 'UPDATE invite SET accept=0 WHERE eventID=:eventID AND resiverID=:resiverID';
+        $sql = 'UPDATE invite SET accept=0 WHERE eventID=:eventID AND receiverID=:receiverID';
 
         $stmt = $this->conn->prepare($sql);
         $this->eventID = htmlspecialchars(strip_tags($this->eventID));
-        $this->resiverID = htmlspecialchars(strip_tags($this->resiverID));
+        $this->receiverID = htmlspecialchars(strip_tags($this->receiverID));
 
-        $stmt->bindParam(':resiverID', $this->resiverID);
+        $stmt->bindParam(':receiverID', $this->receiverID);
         $stmt->bindParam(':eventID', $this->eventID);
         
 
@@ -167,19 +178,18 @@ class Kalender{
             return true;
         }
 
-        printf("Error: %s. \n", $stmt->error);
         return false;
     }
     
 
     public function deleteInvite(){
-        $sql = 'DELETE FROM invite WHERE eventID=:eventID AND resiverID=:resiverID';
+        $sql = 'DELETE FROM invite WHERE eventID=:eventID AND receiverID=:receiverID';
 
         $stmt = $this->conn->prepare($sql);
         $this->eventID = htmlspecialchars(strip_tags($this->eventID));
-        $this->resiverID = htmlspecialchars(strip_tags($this->resiverID));
+        $this->receiverID = htmlspecialchars(strip_tags($this->receiverID));
 
-        $stmt->bindParam(':resiverID', $this->resiverID);
+        $stmt->bindParam(':receiverID', $this->receiverID);
         $stmt->bindParam(':eventID', $this->eventID);
        
 
@@ -187,7 +197,7 @@ class Kalender{
             return true;
         }
 
-        printf("Error: %s. \n", $stmt->error);
+      
         return false;
     }
     
@@ -197,11 +207,17 @@ class Kalender{
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(1, $this->id);
-        $stmt->execute();
+        
+        if($stmt->execute()){
+            return true;
+        }
+
+      
+        return false;
     }
 
     public function readInvite(){
-        $sql='SELECT * FROM invite WHERE resiverID=?';
+        $sql='SELECT * FROM invite WHERE receiverID=?';
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(1, $this->id);

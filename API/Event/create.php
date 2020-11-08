@@ -22,9 +22,16 @@ $ev->dateTime = $data->dateTime;
 
 
 
-//echo $data;
 
-$ev->createEvent();
+
+
+if($ev->createEvent()){
+    echo json_encode(array('message' => 'Event created'));
+}else{
+    echo json_encode(
+        array('message'=>'Event not created')
+    );
+}
 
 
 ?>

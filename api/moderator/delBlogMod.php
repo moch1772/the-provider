@@ -20,9 +20,15 @@ $data = json_decode(file_get_contents("php://input"));
 
 $new->userID = $data->userID;
 $new->bloggID = $data->bloggID;
- $new->deleteBMod();
 
-echo 'k';
+
+ if($new->deleteBMod()){
+   echo json_encode(array('message' => 'Moderator deleted'));
+}else{
+   echo json_encode(
+       array('message'=>'Moderator Not deleted')
+   );
+}
 
 
    ?>

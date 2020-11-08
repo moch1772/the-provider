@@ -22,7 +22,14 @@ $ev->description = $data->description;
 
 
 
-echo 'ses';
 
-$ev->updateEvent();
+
+
+if($ev->updateEvent()){
+    echo json_encode(array('message' => 'Event updated'));
+}else{
+    echo json_encode(
+        array('message'=>'Event not updated')
+    );
+}
 ?>

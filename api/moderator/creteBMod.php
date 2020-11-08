@@ -21,7 +21,14 @@ $data = json_decode(file_get_contents("php://input"));
 
 $new->userID = $data->userID;
 $new->bloggID = $data->bloggID;
- $new->createBMod();
+
  
-echo 'k';
+ if($new->createBMod()){
+    echo json_encode(array('message' => 'Moderator Created'));
+}else{
+    echo json_encode(
+        array('message'=>'Moderator Not created')
+    );
+}
+
 ?>
