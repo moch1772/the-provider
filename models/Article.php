@@ -171,7 +171,7 @@ class Article{
        
        $newstring = str_replace($nog,$deb, $tet);
        
-       return html_entity_decode($newstring);
+       return $newstring;
        
 
         

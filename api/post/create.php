@@ -19,6 +19,8 @@ $post->userID = $data->userID;
 $post->showComments = $data->showComments;
 $post->text = $data->text;
 $post->title = $data->title;
+$post->bloggID = $data->bloggID;
+$post->hidden = $data->hidden;
 
 if($post->create()){
     echo json_encode(array('message' => 'Post Created'));

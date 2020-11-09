@@ -156,6 +156,7 @@ class Kalender{
 
         $stmt->bindParam(':receiverID', $this->receiverID);
         $stmt->bindParam(':eventID', $this->eventID);
+        
         if($stmt->execute()){
             return true;
         }

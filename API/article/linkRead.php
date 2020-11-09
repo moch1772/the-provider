@@ -12,9 +12,10 @@ $db = $database->connect();
 $article = new Article($db);
 
 $article->wikiID = isset($_GET['wikiID']) ? $_GET['wikiID'] : die();
- 
-echo html_entity_decode($article->titleLink());
 
+$pp= html_entity_decode($article->titleLink());
+echo $pp;
+ json_encode($pp);
 
 
 ?>
