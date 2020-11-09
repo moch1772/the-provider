@@ -2,10 +2,10 @@
 
 class Database {
 
-    private $host = 'http://te4-ntig.se';
-    private $db = 'fedora';
-    private $username = 'fedora@sko.te4-ntig.se';
-    private $password = 'fedora123';
+    private $host = 'localhost';
+    private $db = 'provider';
+    private $username = 'root';
+    private $password = '';
     private $conn; 
 
     public function connect(){
