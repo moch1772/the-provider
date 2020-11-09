@@ -42,8 +42,7 @@ class Article{
         $this->version = $row['version'];
         $this->text = $row['text'];
         $this->title = $row['title'];
- 
-       
+        
         return $stmt;
     }
     
@@ -53,7 +52,7 @@ class Article{
         $stmt = $this->conn->prepare($sql);
 
         $this->title = htmlspecialchars(strip_tags($this->title));
-        $this->text = htmlspecialchars(strip_tags($this->text));
+        $this->text = htmlspecialchars($this->text);
         $this->userID = htmlspecialchars(strip_tags($this->userID));
         $this->version = htmlspecialchars(strip_tags($this->version));
 
@@ -73,31 +72,49 @@ class Article{
     
     //Update Article
     public function update(){
+
+
+        $sql = 'SELECT * FROM '.$this->table.' WHERE wikiID=?';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(1, $this->wikiID);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $wikiID=$row['wikiID'];
+        $userID=$row['userID'];
+        $title=$row['title'];
+        $text=$row['text'];
+        $version=$row['version'];
+
+        $sql = "INSERT INTO wikihistory SET wikiID='$wikiID', userID='$userID', text='$text', title='$title', version='$version'";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
+
         //Query
-        $sql='UPDATE '.$this->table.'
+        $sql=' UPDATE '.$this->table.'
         SET
             text = :text,
             title = :title,
             userID = :userID,
-            version = :version
+            version = ' .$version. '+ 1
             WHERE 
             wikiID = :wikiID';
-        
+
         //Prepare
         $stmt = $this->conn->prepare($sql);
 
-        $this->text = htmlspecialchars(strip_tags($this->text));
-        $this->title = htmlspecialchars(strip_tags($this->title));
+        $this->text = htmlspecialchars($this->text);
+        $this->title = htmlspecialchars($this->title);
         $this->userID = htmlspecialchars(strip_tags($this->userID));
         $this->wikiID = htmlspecialchars(strip_tags($this->wikiID));
-        $this->version = htmlspecialchars(strip_tags($this->version));
 
         //sätt data/Bind data
         $stmt->bindParam(':wikiID', $this->wikiID);
         $stmt->bindParam(':text', $this->text);
         $stmt->bindParam(':title', $this->title);
         $stmt->bindParam(':userID', $this->userID);
-        $stmt->bindParam(':version', $this->version);
 
         if($stmt->execute()){
             return true;
@@ -114,15 +131,14 @@ class Article{
         $stmt->execute();
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $postID=$row['postID'];
+        $wikiID=$row['wikiID'];
         $userID=$row['userID'];
         $dateTime=$row['dateTime'];
-        $showComments=$row['showComments'];
+        $version=$row['version'];
         $text=$row['text'];
         $title=$row['title'];
 
-        $sql = "INSERT INTO wikihistory SET wikiID='$postID',userID='$userID',date='$dateTime',version='$showComment',text='$text',title='$title'";
+        $sql = "INSERT INTO wikihistory SET wikiID='$wikiID',userID='$userID', date='$dateTime',version='$version',text='$text',title='$title'";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
@@ -141,6 +157,7 @@ class Article{
 
         return false;
     }
+    
     public function titleLink(){
         $sql='SELECT text FROM wikiarticle WHERE wikiID=?';
 
@@ -173,10 +190,6 @@ class Article{
        
        return html_entity_decode($newstring);
        
-
-        
-        
-
     }
 }
 ?>
