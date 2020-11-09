@@ -51,7 +51,7 @@ class Article{
 
         $stmt = $this->conn->prepare($sql);
 
-        $this->title = htmlspecialchars(strip_tags($this->title));
+        $this->title = htmlspecialchars($this->title);
         $this->text = htmlspecialchars($this->text);
         $this->userID = htmlspecialchars(strip_tags($this->userID));
         $this->version = htmlspecialchars(strip_tags($this->version));
